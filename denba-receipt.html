@@ -700,7 +700,7 @@ async function submitReceipt(){
 }
 
 // ── Get doc number from Google Apps Script ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyqXST2CCnLlAnp_twRgyPtWQtZBAQtCWk8roOOGeKJmqVF27TZ7kvLgiSChtxYR1-ruw/exec'; // 設定後換成您的 GAS 網址
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwp0U-SL39uFxSLBV5GOnT-9p5JkBeQ-fFMiMovhPx9FVSyVSsvs_yzx-bgNBN4r3E/exec'; // 設定後換成您的 GAS 網址
 
 async function getDocNo(){
   try{
@@ -722,16 +722,28 @@ async function getDocNo(){
 async function saveToSheet(data){
   if(GAS_URL === 'YOUR_GAS_URL_HERE') return;
   try{
-    // 用 GET + 資料編碼方式避開 CORS 問題
+    // 不傳簽名圖（太大），只傳文字資料
     const payload = {
-      ...data,
-      sigData: currentSigData,
-      action: 'save'
+      docNo:         data.docNo,
+      now:           data.now,
+      dealer:        data.dealer,
+      sales:         data.sales,
+      customerType:  data.customerType,
+      customerLabel: data.customerLabel,
+      contact:       data.contact || '',
+      tel:           data.tel,
+      addr:          data.addr,
+      machines:      data.machines,
+      accs:          data.accs,
+      remarks:       data.remarks || '',
+      signer:        data.signer,
+      agree:         data.agree
     };
     const encoded = encodeURIComponent(JSON.stringify(payload));
     const url = GAS_URL + '?action=save&data=' + encoded;
-    const res = await fetch(url, { method: 'GET' });
+    const res = await fetch(url);
     const result = await res.json();
+    console.log('save result:', result);
     if(result.pdfUrl){
       const doneCard = document.querySelector('.done-card');
       if(doneCard && !document.getElementById('pdf-link-btn')){
