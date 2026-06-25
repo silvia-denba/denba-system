@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENBA 後台管理</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0C447C;--blue-mid:#185FA5;--blue-light:#E6F1FB;
+  --ink:#111827;--muted:#6B7280;--border:#E5E7EB;--bg:#F4F7FB;--white:#fff;
+  --green:#16A34A;--green-light:#DCFCE7;--red:#DC2626;
+  --radius:10px;--shadow:0 2px 10px rgba(12,68,124,.08);
+}
+body{font-family:-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+
+/* Top bar */
+.topbar{background:var(--blue);color:#fff;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 2px 8px rgba(12,68,124,.3)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-logo{background:#fff;color:var(--blue);border-radius:8px;padding:4px 9px;font-size:13px;font-weight:800;letter-spacing:.5px}
+.topbar-title{font-size:15px;font-weight:600}
+.topbar-right{display:flex;gap:8px}
+.tb-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;padding:6px 13px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit;transition:.15s}
+.tb-btn:hover{background:rgba(255,255,255,.25)}
+
+/* Layout */
+.layout{display:flex;flex:1;overflow:hidden}
+.sidebar{width:180px;background:#042C53;flex-shrink:0;overflow-y:auto}
+.sidebar-section{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;padding:14px 14px 4px}
+.nav-item{padding:10px 14px;font-size:13px;color:rgba(255,255,255,.6);cursor:pointer;display:flex;align-items:center;gap:9px;border-left:3px solid transparent;transition:.15s}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.05)}
+.nav-item.active{color:#fff;background:rgba(255,255,255,.09);border-left-color:#85B7EB}
+.main{flex:1;overflow-y:auto;padding:20px}
+
+/* Pages */
+.tab-page{display:none}.tab-page.active{display:block}
+
+/* Stats */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:var(--white);border-radius:var(--radius);border:0.5px solid var(--border);padding:14px 16px;box-shadow:var(--shadow)}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.stat-val{font-size:26px;font-weight:700;color:var(--ink);line-height:1}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.stat-accent{border-left:3px solid var(--blue-mid)}
+
+/* Card */
+.card{background:var(--white);border-radius:var(--radius);border:0.5px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+.card-head{padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:600;color:var(--ink)}
+.head-actions{display:flex;gap:7px}
+.mini-btn{background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:5px 11px;font-size:11px;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px;font-family:inherit;transition:.15s}
+.mini-btn:hover{background:var(--border)}
+.mini-btn.primary{background:var(--blue-light);border-color:var(--blue-mid);color:var(--blue-mid)}
+.mini-btn.primary:hover{background:#D0E5F7}
+
+/* Filters */
+.filter-bar{padding:10px 14px;border-bottom:0.5px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.search-input{flex:1;min-width:160px;background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 11px;font-size:13px;color:var(--ink);font-family:inherit}
+.search-input:focus{outline:none;border-color:var(--blue-mid)}
+.filter-sel{background:var(--bg);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--muted);font-family:inherit}
+
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:9px 14px;text-align:left;border-bottom:0.5px solid var(--border);white-space:nowrap;background:var(--bg)}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);vertical-align:middle;color:var(--ink)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFBFD}
+.doc-no{font-family:monospace;font-size:12px;font-weight:700;color:var(--blue-mid)}
+.badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:600;white-space:nowrap}
+.badge-blue{background:var(--blue-light);color:var(--blue-mid)}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-gray{background:var(--bg);color:var(--muted);border:0.5px solid var(--border)}
+.action-cell{display:flex;gap:5px}
+.a-btn{width:28px;height:28px;border-radius:6px;border:0.5px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:.15s}
+.a-btn:hover{background:var(--bg)}
+.a-btn.view{color:var(--blue-mid);border-color:#B5D4F4;background:var(--blue-light)}
+
+/* Pagination */
+.pagination{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border)}
+.page-info{font-size:11px;color:var(--muted)}
+.page-btns{display:flex;gap:4px}
+.p-btn{width:28px;height:28px;border-radius:5px;border:0.5px solid var(--border);background:var(--white);font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.p-btn:hover{background:var(--bg)}
+.p-btn.active{background:var(--blue-mid);border-color:var(--blue-mid);color:#fff}
+
+/* List management (machines/accessories) */
+.list-items{padding:14px}
+.list-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:8px;border:0.5px solid var(--border);margin-bottom:8px}
+.list-item-name{flex:1;font-size:14px;color:var(--ink)}
+.list-item-actions{display:flex;gap:5px}
+.add-item-row{display:flex;gap:8px;padding:14px;border-top:0.5px solid var(--border)}
+.add-input{flex:1;background:var(--white);border:0.5px solid var(--border);border-radius:7px;padding:9px 12px;font-size:14px;font-family:inherit;color:var(--ink)}
+.add-input:focus{outline:none;border-color:var(--blue-mid)}
+
+/* Dealer cards */
+.dealer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+.dealer-card{border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
+.dealer-name{font-size:14px;font-weight:600;color:var(--ink)}
+.dealer-count{font-size:11px;color:var(--muted);margin-top:2px}
+.dealer-dot{width:9px;height:9px;border-radius:50%;background:var(--green);flex-shrink:0}
+.add-dealer-card{border:1.5px dashed var(--border);border-radius:8px;padding:12px 14px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;background:var(--white);transition:.15s}
+.add-dealer-card:hover{background:var(--bg);border-color:var(--blue-mid);color:var(--blue-mid)}
+
+/* Modal overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:50;display:none}
+.modal-overlay.show{display:flex}
+.modal{background:var(--white);border-radius:14px;padding:24px;width:90%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--ink)}
+.modal input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;color:var(--ink);margin-bottom:14px}
+.modal input:focus{outline:none;border-color:var(--blue-mid)}
+.modal-btns{display:flex;gap:8px}
+.modal-btns button{flex:1;padding:11px;border-radius:8px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;border:none}
+.btn-cancel{background:var(--bg);color:var(--muted);border:0.5px solid var(--border)!important}
+.btn-ok{background:var(--blue-mid);color:#fff}
+
+/* Receipt viewer modal */
+.receipt-modal{background:var(--white);border-radius:14px;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.receipt-modal-head{padding:16px 20px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
+.receipt-modal-head h3{font-size:15px;font-weight:700;color:var(--blue)}
+.close-btn{width:32px;height:32px;border-radius:7px;border:0.5px solid var(--border);background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted)}
+.receipt-modal-body{padding:20px}
+.rm-section{font-size:10px;font-weight:700;color:var(--blue-mid);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 7px;padding-bottom:5px;border-bottom:1px solid var(--blue-light)}
+.rm-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px}
+.rm-row .k{color:var(--muted)}
+.rm-row .v{font-weight:600;text-align:right;max-width:60%}
+.sig-preview{width:100%;max-height:120px;object-fit:contain;border:0.5px solid var(--border);border-radius:8px;background:#FAFAFA;margin-top:8px}
+.dl-btn-modal{width:100%;margin-top:16px;padding:12px;background:var(--blue-mid);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.machine-tag{background:var(--blue-light);border-radius:6px;padding:5px 10px;margin-bottom:5px;font-size:12px;font-weight:600;color:var(--blue)}
+.machine-tag-sub{font-size:11px;color:var(--blue-mid);margin-top:2px;font-weight:400}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">DENBA</div>
+    <div class="topbar-title">後台管理系統</div>
+  </div>
+  <div class="topbar-right">
+    <button class="tb-btn" onclick="exportCSV()">⬇ 匯出 CSV</button>
+    <button class="tb-btn" onclick="showGasHelp()">⚙ GAS 設定</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-section">主選單</div>
+    <div class="nav-item active" onclick="switchTab('records')">📄 簽收紀錄</div>
+    <div class="nav-item" onclick="switchTab('dealers')">🏢 經銷商管理</div>
+    <div class="nav-item" onclick="switchTab('machines')">🖨️ 機器清單</div>
+    <div class="nav-item" onclick="switchTab('accessories')">📦 配件清單</div>
+  </div>
+
+  <div class="main">
+
+    <!-- ── 簽收紀錄 ── -->
+    <div class="tab-page active" id="tab-records">
+      <div class="stat-row">
+        <div class="stat stat-accent">
+          <div class="stat-label">本月簽收</div>
+          <div class="stat-val" id="stat-month">—</div>
+          <div class="stat-sub">張</div>
+        </div>
+        <div class="stat stat-accent">
+          <div class="stat-label">本月機器</div>
+          <div class="stat-val" id="stat-machines">—</div>
+          <div class="stat-sub">台</div>
+        </div>
+        <div class="stat stat-accent">
+          <div class="stat-label">經銷商</div>
+          <div class="stat-val" id="stat-dealers">—</div>
+          <div class="stat-sub">家</div>
+        </div>
+        <div class="stat stat-accent">
+          <div class="stat-label">今日簽收</div>
+          <div class="stat-val" id="stat-today">—</div>
+          <div class="stat-sub">張</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">所有簽收紀錄</div>
+          <div class="head-actions">
+            <button class="mini-btn primary" onclick="loadRecords()">↻ 重新整理</button>
+          </div>
+        </div>
+        <div class="filter-bar">
+          <input class="search-input" id="search-input" placeholder="搜尋單號、客戶、業務…" oninput="filterRecords()">
+          <select class="filter-sel" id="filter-dealer" onchange="filterRecords()">
+            <option value="">全部經銷商</option>
+          </select>
+          <select class="filter-sel" id="filter-month" onchange="filterRecords()">
+            <option value="">全部月份</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>單號</th>
+                <th>日期</th>
+                <th>經銷商</th>
+                <th>業務</th>
+                <th>客戶</th>
+                <th>機器</th>
+                <th>退貨同意</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="records-tbody">
+              <tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">點擊「重新整理」載入資料，或先完成 GAS 設定</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <div class="page-info" id="page-info">— 筆紀錄</div>
+          <div class="page-btns" id="page-btns"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 經銷商管理 ── -->
+    <div class="tab-page" id="tab-dealers">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">經銷商清單</div>
+          <div class="head-actions">
+            <button class="mini-btn primary" onclick="openAddDealer()">＋ 新增</button>
+          </div>
+        </div>
+        <div class="dealer-grid" id="dealer-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── 機器清單 ── -->
+    <div class="tab-page" id="tab-machines">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">機器型號清單</div>
+          <div class="card-title" style="font-size:11px;color:var(--muted);font-weight:400">修改後自動同步到簽收單選單</div>
+        </div>
+        <div class="list-items" id="machine-items"></div>
+        <div class="add-item-row">
+          <input class="add-input" id="new-machine-input" placeholder="輸入新機器型號" onkeydown="if(event.key==='Enter')addListItem('machine')">
+          <button class="mini-btn primary" onclick="addListItem('machine')">＋ 新增</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 配件清單 ── -->
+    <div class="tab-page" id="tab-accessories">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">配件清單</div>
+          <div class="card-title" style="font-size:11px;color:var(--muted);font-weight:400">修改後自動同步到簽收單配件選項</div>
+        </div>
+        <div class="list-items" id="acc-items"></div>
+        <div class="add-item-row">
+          <input class="add-input" id="new-acc-input" placeholder="輸入新配件名稱" onkeydown="if(event.key==='Enter')addListItem('acc')">
+          <button class="mini-btn primary" onclick="addListItem('acc')">＋ 新增</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main -->
+</div><!-- end layout -->
+
+<!-- Modal: 新增/編輯 -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title">新增</h3>
+    <input type="text" id="modal-input" placeholder="">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-ok" onclick="confirmModal()">確認</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: 簽收單詳細 -->
+<div class="modal-overlay" id="receipt-overlay">
+  <div class="receipt-modal">
+    <div class="receipt-modal-head">
+      <h3 id="rm-title">簽收單詳細</h3>
+      <button class="close-btn" onclick="closeReceiptModal()">✕</button>
+    </div>
+    <div class="receipt-modal-body" id="rm-body"></div>
+  </div>
+</div>
+
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwp0U-SL39uFxSLBV5GOnT-9p5JkBeQ-fFMiMovhPx9FVSyVSsvs_yzx-bgNBN4r3E/exec';
+
+// ── Data stores ──
+let allRecords = [];
+let filteredRecords = [];
+let currentPage = 1;
+const PAGE_SIZE = 15;
+let modalMode = ''; // 'add-dealer','edit-dealer','edit-machine','edit-acc'
+let editingIndex = -1;
+
+// ── Lists stored in localStorage ──
+let dealers = JSON.parse(localStorage.getItem('denba_dealers')||'["Denba Taiwan 總代理","台北經銷商","中部經銷商","南區經銷商","東區經銷商"]');
+let machineList = JSON.parse(localStorage.getItem('denba_machines')||'["MFC-L3750CDW","MFC-L8900CDW","HL-L8360CDW","HL-L9310CDW","MFC-J5945DW","DCP-L2540DW","MFC-L2770DW","其他（請於備註說明）"]');
+let accList = JSON.parse(localStorage.getItem('denba_accs')||'["黑色碳粉匣","青色碳粉匣","洋紅色碳粉匣","黃色碳粉匣","感光鼓","廢粉盒","電源線","USB傳輸線","無線網路卡","進紙匣"]');
+
+function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+// ── Tab switch ──
+function switchTab(id){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  if(id==='dealers') renderDealers();
+  if(id==='machines') renderList('machine');
+  if(id==='accessories') renderList('acc');
+}
+
+// ── Records ──
+async function loadRecords(){
+  const tbody = document.getElementById('records-tbody');
+  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">載入中…</td></tr>';
+  try{
+    if(GAS_URL === 'YOUR_GAS_URL_HERE') throw new Error('no gas');
+    const res = await fetch(GAS_URL+'?action=getAll');
+    const d = await res.json();
+    allRecords = d.records || [];
+  } catch(e){
+    // demo data
+    allRecords = [
+      {docNo:'260625003',date:'2026/06/25 14:32',dealer:'Denba Taiwan 總代理',sales:'王小明',customerType:'company',customerLabel:'XX 有限公司',contact:'陳先生',tel:'02-2345-6789',addr:'台北市信義路五段7號',machines:[{model:'MFC-L3750CDW',qty:2,serials:['BRO001','BRO002']}],accs:[{name:'黑色碳粉匣',qty:2}],remarks:'',signer:'陳大明',agree:true},
+      {docNo:'260625002',date:'2026/06/25 11:10',dealer:'中部經銷商',sales:'李美華',customerType:'personal',customerLabel:'林先生（個人）',contact:'林先生',tel:'0912-345-678',addr:'台中市西區民生路100號',machines:[{model:'HL-L8360CDW',qty:1,serials:['BRO003']}],accs:[],remarks:'需要安裝服務',signer:'林志明',agree:false},
+      {docNo:'260625001',date:'2026/06/25 09:05',dealer:'南區經銷商',sales:'張志豪',customerType:'company',customerLabel:'永和企業社',contact:'許小姐',tel:'07-123-4567',addr:'高雄市苓雅區四維路50號',machines:[{model:'MFC-L3750CDW',qty:1,serials:['BRO004']},{model:'HL-L8360CDW',qty:2,serials:['BRO005','BRO006']}],accs:[{name:'電源線',qty:3},{name:'感光鼓',qty:1}],remarks:'',signer:'許淑芬',agree:true},
+      {docNo:'260624008',date:'2026/06/24 16:44',dealer:'Denba Taiwan 總代理',sales:'王小明',customerType:'company',customerLabel:'大安科技有限公司',contact:'黃協理',tel:'02-8765-4321',addr:'台北市大安區忠孝東路四段100號',machines:[{model:'MFC-L3750CDW',qty:3,serials:['BRO007','BRO008','BRO009']}],accs:[{name:'黑色碳粉匣',qty:3},{name:'感光鼓',qty:2}],remarks:'',signer:'黃大為',agree:true},
+    ];
+  }
+
+  buildFilters();
+  updateStats();
+  filterRecords();
+}
+
+function buildFilters(){
+  const ds = [...new Set(allRecords.map(r=>r.dealer))];
+  const dealerSel = document.getElementById('filter-dealer');
+  dealerSel.innerHTML = '<option value="">全部經銷商</option>' + ds.map(d=>`<option>${d}</option>`).join('');
+  const months = [...new Set(allRecords.map(r=>r.date?.substring(0,7)))].sort().reverse();
+  const monthSel = document.getElementById('filter-month');
+  monthSel.innerHTML = '<option value="">全部月份</option>' + months.map(m=>`<option>${m}</option>`).join('');
+}
+
+function updateStats(){
+  const now = new Date();
+  const ym = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}`;
+  const today = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}`;
+  const monthRecs = allRecords.filter(r=>r.date?.startsWith(ym));
+  const todayRecs = allRecords.filter(r=>r.date?.startsWith(today));
+  const totalMachines = monthRecs.reduce((s,r)=>s+(r.machines||[]).reduce((a,m)=>a+m.qty,0),0);
+  const uniqueDealers = new Set(allRecords.map(r=>r.dealer)).size;
+  document.getElementById('stat-month').textContent = monthRecs.length;
+  document.getElementById('stat-machines').textContent = totalMachines;
+  document.getElementById('stat-dealers').textContent = uniqueDealers;
+  document.getElementById('stat-today').textContent = todayRecs.length;
+}
+
+function filterRecords(){
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const dealer = document.getElementById('filter-dealer').value;
+  const month = document.getElementById('filter-month').value;
+  filteredRecords = allRecords.filter(r=>{
+    if(dealer && r.dealer !== dealer) return false;
+    if(month && !r.date?.startsWith(month)) return false;
+    if(q && ![r.docNo,r.customerLabel,r.sales,r.dealer].join(' ').toLowerCase().includes(q)) return false;
+    return true;
+  });
+  currentPage = 1;
+  renderTable();
+}
+
+function renderTable(){
+  const tbody = document.getElementById('records-tbody');
+  const start = (currentPage-1)*PAGE_SIZE;
+  const page = filteredRecords.slice(start, start+PAGE_SIZE);
+  if(!page.length){
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">無符合的紀錄</td></tr>';
+    document.getElementById('page-info').textContent = '0 筆紀錄';
+    document.getElementById('page-btns').innerHTML = '';
+    return;
+  }
+  tbody.innerHTML = page.map((r,i)=>{
+    const machineSum = (r.machines||[]).map(m=>`${m.model} ×${m.qty}`).join('、');
+    return `<tr>
+      <td><span class="doc-no">${r.docNo}</span></td>
+      <td>${r.date?.substring(0,16)||'—'}</td>
+      <td><span class="badge badge-blue">${r.dealer||'—'}</span></td>
+      <td>${r.sales||'—'}</td>
+      <td>${r.customerLabel||'—'}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${machineSum}">${machineSum||'—'}</td>
+      <td>${r.agree ? '<span class="badge badge-green">✓ 已同意</span>' : '<span class="badge badge-gray">未勾選</span>'}</td>
+      <td>${r.pdfUrl ? `<a href="${r.pdfUrl}" target="_blank" class="a-btn view" title="開啟 PDF" style="text-decoration:none">📄</a>` : '<span style="color:var(--muted);font-size:11px">—</span>'}</td>
+      <td><div class="action-cell">
+        <button class="a-btn view" onclick="viewReceipt(${start+i})" title="查看">👁</button>
+        <button class="a-btn" onclick="downloadRecord(${start+i})" title="下載">⬇</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+
+  const total = filteredRecords.length;
+  const pages = Math.ceil(total/PAGE_SIZE);
+  document.getElementById('page-info').textContent = `共 ${total} 筆，顯示第 ${start+1}–${Math.min(start+PAGE_SIZE,total)} 筆`;
+  const pb = document.getElementById('page-btns');
+  pb.innerHTML = `<button class="p-btn" onclick="goPage(${currentPage-1})" ${currentPage<=1?'disabled':''}>‹</button>`;
+  for(let p=1;p<=pages;p++) pb.innerHTML += `<button class="p-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+  pb.innerHTML += `<button class="p-btn" onclick="goPage(${currentPage+1})" ${currentPage>=pages?'disabled':''}>›</button>`;
+}
+
+function goPage(p){
+  const pages = Math.ceil(filteredRecords.length/PAGE_SIZE);
+  if(p<1||p>pages) return;
+  currentPage=p; renderTable();
+}
+
+// ── View receipt ──
+let viewingRecord = null;
+function viewReceipt(idx){
+  const r = filteredRecords[idx];
+  viewingRecord = r;
+  document.getElementById('rm-title').textContent = '簽收單 ' + r.docNo;
+  const machineHTML = (r.machines||[]).map(m=>`
+    <div class="machine-tag">
+      ${m.model}　× ${m.qty}
+      ${m.serials?.filter(s=>s).length ? `<div class="machine-tag-sub">序號：${m.serials.filter(s=>s).join('、')}</div>` : ''}
+    </div>`).join('');
+  const accHTML = (r.accs||[]).length
+    ? (r.accs||[]).map(a=>`<div class="rm-row"><span class="k">${a.name}</span><span class="v">× ${a.qty}</span></div>`).join('')
+    : '<div style="font-size:12px;color:var(--muted)">無</div>';
+  document.getElementById('rm-body').innerHTML = `
+    <div class="rm-section">基本資訊</div>
+    <div class="rm-row"><span class="k">單號</span><span class="v" style="font-family:monospace;color:var(--blue-mid)">${r.docNo}</span></div>
+    <div class="rm-row"><span class="k">日期</span><span class="v">${r.date}</span></div>
+    <div class="rm-row"><span class="k">經銷商</span><span class="v">${r.dealer}</span></div>
+    <div class="rm-row"><span class="k">業務</span><span class="v">${r.sales}</span></div>
+    <div class="rm-section">客戶資訊</div>
+    <div class="rm-row"><span class="k">客戶</span><span class="v">${r.customerLabel}</span></div>
+    ${r.customerType==='company'?`<div class="rm-row"><span class="k">聯絡人</span><span class="v">${r.contact}</span></div>`:''}
+    <div class="rm-row"><span class="k">電話</span><span class="v">${r.tel}</span></div>
+    <div class="rm-row"><span class="k">地址</span><span class="v">${r.addr}</span></div>
+    <div class="rm-section">交付機器</div>
+    ${machineHTML}
+    <div class="rm-section">配件</div>
+    ${accHTML}
+    <div class="rm-section">其他</div>
+    <div class="rm-row"><span class="k">備註</span><span class="v">${r.remarks||'無'}</span></div>
+    <div class="rm-row"><span class="k">退貨同意</span><span class="v" style="color:${r.agree?'var(--green)':'var(--muted)'}">${r.agree?'✓ 已同意':'未勾選'}</span></div>
+    <div class="rm-section">簽名確認</div>
+    <div class="rm-row"><span class="k">簽名者</span><span class="v">${r.signer}</span></div>
+    ${r.sigData ? `<img src="${r.sigData}" class="sig-preview" alt="簽名">` : '<div style="font-size:12px;color:var(--muted)">（簽名圖片未儲存於後台）</div>'}
+    ${r.pdfUrl ? `<a href="${r.pdfUrl}" target="_blank" class="dl-btn-modal" style="display:block;text-align:center;text-decoration:none;margin-top:16px">📄 開啟 Google Drive PDF</a>` : '<button class="dl-btn-modal" onclick="downloadRecord('+idx+')">⬇ 下載簽收單圖片</button>'}
+  `;
+  document.getElementById('receipt-overlay').classList.add('show');
+}
+
+function closeReceiptModal(){
+  document.getElementById('receipt-overlay').classList.remove('show');
+}
+
+function downloadRecord(idx){
+  const r = filteredRecords[idx];
+  if(r.sigData){
+    const a = document.createElement('a');
+    a.download = r.docNo + '.png';
+    a.href = r.sigData;
+    a.click();
+  } else {
+    alert('此紀錄無儲存簽名圖片（舊版紀錄）');
+  }
+}
+
+// ── Export CSV ──
+function exportCSV(){
+  if(!allRecords.length){alert('尚無資料');return}
+  const headers = ['單號','日期','經銷商','業務','客戶類型','客戶','聯絡人','電話','地址','機器','配件','備註','退貨同意','簽名者'];
+  const rows = allRecords.map(r=>[
+    r.docNo, r.date, r.dealer, r.sales,
+    r.customerType==='company'?'公司':'個人',
+    r.customerLabel, r.contact, r.tel, r.addr,
+    (r.machines||[]).map(m=>`${m.model}×${m.qty}`).join(';'),
+    (r.accs||[]).map(a=>`${a.name}×${a.qty}`).join(';'),
+    r.remarks, r.agree?'是':'否', r.signer
+  ].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`));
+  const csv = '\uFEFF' + [headers.map(h=>`"${h}"`), ...rows].map(r=>r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'DENBA簽收紀錄_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// ── Dealers ──
+function renderDealers(){
+  const grid = document.getElementById('dealer-grid');
+  grid.innerHTML = dealers.map((d,i)=>`
+    <div class="dealer-card">
+      <div><div class="dealer-name">${d}</div><div class="dealer-count">${allRecords.filter(r=>r.dealer===d).length} 張簽收</div></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <div class="dealer-dot"></div>
+        <button class="a-btn" onclick="editDealer(${i})" title="編輯">✏</button>
+        <button class="a-btn" onclick="deleteDealer(${i})" title="刪除" style="color:var(--red)">✕</button>
+      </div>
+    </div>`).join('')
+    + `<div class="add-dealer-card" onclick="openAddDealer()">＋ 新增經銷商</div>`;
+}
+
+function openAddDealer(){ openModal('add-dealer','新增經銷商','輸入經銷商名稱'); }
+function editDealer(i){ editingIndex=i; openModal('edit-dealer','編輯經銷商','輸入經銷商名稱', dealers[i]); }
+function deleteDealer(i){
+  if(!confirm(`確定刪除「${dealers[i]}」？`)) return;
+  dealers.splice(i,1); save('denba_dealers',dealers); renderDealers(); syncListsToGAS();
+}
+
+// ── Machine / Acc lists ──
+function renderList(type){
+  const list = type==='machine' ? machineList : accList;
+  const el = document.getElementById(type==='machine'?'machine-items':'acc-items');
+  el.innerHTML = list.map((item,i)=>`
+    <div class="list-item">
+      <span class="list-item-name">${item}</span>
+      <div class="list-item-actions">
+        <button class="a-btn" onclick="editItem('${type}',${i})" title="編輯">✏</button>
+        <button class="a-btn" onclick="deleteItem('${type}',${i})" title="刪除" style="color:var(--red)">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function addListItem(type){
+  const inputId = type==='machine' ? 'new-machine-input' : 'new-acc-input';
+  const val = document.getElementById(inputId).value.trim();
+  if(!val) return;
+  if(type==='machine'){ machineList.push(val); save('denba_machines',machineList); }
+  else { accList.push(val); save('denba_accs',accList); }
+  document.getElementById(inputId).value = '';
+  renderList(type);
+  syncListsToGAS();
+}
+
+function editItem(type,i){
+  const list = type==='machine' ? machineList : accList;
+  editingIndex = i;
+  openModal('edit-'+type, type==='machine'?'編輯機器型號':'編輯配件', '名稱', list[i]);
+}
+
+function deleteItem(type,i){
+  const list = type==='machine' ? machineList : accList;
+  if(!confirm(`確定刪除「${list[i]}」？`)) return;
+  list.splice(i,1);
+  save(type==='machine'?'denba_machines':'denba_accs', list);
+  renderList(type);
+  syncListsToGAS();
+}
+
+// ── Modal ──
+function openModal(mode, title, placeholder, val=''){
+  modalMode = mode;
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-input').placeholder = placeholder;
+  document.getElementById('modal-input').value = val;
+  document.getElementById('modal-overlay').classList.add('show');
+  setTimeout(()=>document.getElementById('modal-input').focus(),100);
+}
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('show'); }
+function confirmModal(){
+  const val = document.getElementById('modal-input').value.trim();
+  if(!val) return;
+  if(modalMode==='add-dealer'){ dealers.push(val); save('denba_dealers',dealers); renderDealers(); }
+  else if(modalMode==='edit-dealer'){ dealers[editingIndex]=val; save('denba_dealers',dealers); renderDealers(); }
+  else if(modalMode==='edit-machine'){ machineList[editingIndex]=val; save('denba_machines',machineList); renderList('machine'); }
+  else if(modalMode==='edit-acc'){ accList[editingIndex]=val; save('denba_accs',accList); renderList('acc'); }
+  closeModal();
+  syncListsToGAS();
+}
+document.getElementById('modal-input').addEventListener('keydown',e=>{ if(e.key==='Enter') confirmModal(); });
+
+// ── 同步清單到 GAS ──
+async function syncListsToGAS(){
+  if(GAS_URL === 'YOUR_GAS_URL_HERE') return;
+  try{
+    await fetch(GAS_URL+'?action=saveLists', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ dealers, machines: machineList, accs: accList })
+    });
+    showSyncBadge();
+  } catch(e){ console.log('syncLists failed', e); }
+}
+
+function showSyncBadge(){
+  let badge = document.getElementById('sync-badge');
+  if(!badge){
+    badge = document.createElement('div');
+    badge.id = 'sync-badge';
+    badge.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#16A34A;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;z-index:99;transition:opacity .5s';
+    document.body.appendChild(badge);
+  }
+  badge.textContent = '✓ 已同步到 Google 試算表';
+  badge.style.opacity = '1';
+  setTimeout(()=>badge.style.opacity='0', 2500);
+}
+
+// ── GAS help ──
+function showGasHelp(){
+  alert(`Google Apps Script 設定步驟：
+
+1. 前往 script.google.com 新增專案
+2. 將提供的 gas-backend.js 程式碼貼入
+3. 部署 → 新增部署 → 類型選「網頁應用程式」
+4. 存取權設為「所有人」
+5. 複製部署網址，貼入兩個 HTML 檔案中的 GAS_URL 變數
+
+需要 gas-backend.js 程式碼請詢問！`);
+}
+
+// ── Init ──
+loadRecords();
+</script>
+</body>
+</html>
