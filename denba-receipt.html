@@ -700,7 +700,7 @@ async function submitReceipt(){
 }
 
 // ── Get doc number from Google Apps Script ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwp0U-SL39uFxSLBV5GOnT-9p5JkBeQ-fFMiMovhPx9FVSyVSsvs_yzx-bgNBN4r3E/exec'; // 設定後換成您的 GAS 網址
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyqXST2CCnLlAnp_twRgyPtWQtZBAQtCWk8roOOGeKJmqVF27TZ7kvLgiSChtxYR1-ruw/exec'; // 設定後換成您的 GAS 網址
 
 async function getDocNo(){
   try{
@@ -722,12 +722,15 @@ async function getDocNo(){
 async function saveToSheet(data){
   if(GAS_URL === 'YOUR_GAS_URL_HERE') return;
   try{
-    // 第一次：先送文字資料（不含簽名圖，避免資料太大）
-    const res = await fetch(GAS_URL+'?action=save', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({...data, sigData: currentSigData})
-    });
+    // 用 GET + 資料編碼方式避開 CORS 問題
+    const payload = {
+      ...data,
+      sigData: currentSigData,
+      action: 'save'
+    };
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    const url = GAS_URL + '?action=save&data=' + encoded;
+    const res = await fetch(url, { method: 'GET' });
     const result = await res.json();
     if(result.pdfUrl){
       const doneCard = document.querySelector('.done-card');
@@ -741,27 +744,8 @@ async function saveToSheet(data){
         doneCard.appendChild(btn);
       }
     }
-    if(result.error){
-      console.log('GAS error:', result.error);
-      // 嘗試不帶簽名重送
-      const res2 = await fetch(GAS_URL+'?action=save', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({...data, sigData: ''})
-      });
-      const result2 = await res2.json();
-      console.log('retry result:', result2);
-    }
   } catch(e){
-    console.log('save failed, retrying without sig:', e);
-    // 網路或大小問題，不帶簽名重試一次
-    try{
-      await fetch(GAS_URL+'?action=save', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({...data, sigData: ''})
-      });
-    } catch(e2){ console.log('retry also failed:', e2); }
+    console.log('save failed:', e);
   }
 }
 
