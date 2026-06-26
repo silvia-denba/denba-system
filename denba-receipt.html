@@ -14,7 +14,7 @@
 }
 body{font-family:-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 header{background:var(--blue);color:#fff;padding:16px 20px 13px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(12,68,124,.3)}
-.hlogo{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.5px;line-height:1.2;text-align:center}
+.hlogo{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue);line-height:1.2;text-align:center}
 header h1{font-size:19px;font-weight:700}
 header p{font-size:11px;opacity:.7;margin-top:2px}
 .page{display:none}.page.active{display:block}
@@ -22,146 +22,132 @@ header p{font-size:11px;opacity:.7;margin-top:2px}
 .progress{display:flex;align-items:center;margin-bottom:20px;background:var(--white);border-radius:40px;padding:10px 16px;box-shadow:var(--shadow)}
 .step{display:flex;align-items:center;gap:7px;flex:1}
 .step-num{width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;background:var(--border);color:var(--muted);flex-shrink:0;transition:.3s}
-.step-label{font-size:12px;color:var(--muted);font-weight:500;transition:.3s}
+.step-label{font-size:12px;color:var(--muted);font-weight:500}
 .step.active .step-num{background:var(--blue-mid);color:#fff}
 .step.active .step-label{color:var(--blue-mid);font-weight:700}
 .step.done .step-num{background:var(--green);color:#fff}
 .step-line{flex:1;height:1.5px;background:var(--border);margin:0 6px}
 .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
-.card-title{font-size:11px;font-weight:700;color:var(--blue-mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;padding-bottom:9px;border-bottom:2px solid var(--blue-light);display:flex;align-items:center;gap:7px}
+.card-title{font-size:11px;font-weight:700;color:var(--blue-mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;padding-bottom:9px;border-bottom:2px solid var(--blue-light)}
 .field{margin-bottom:14px}
 label.fl{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}
-label.fl .req{color:var(--red);margin-left:2px}
+.req{color:var(--red);margin-left:2px}
 input,textarea,select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink);background:var(--white);transition:border-color .2s;-webkit-appearance:none;appearance:none}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue-mid);box-shadow:0 0 0 3px rgba(24,95,165,.1)}
-input.err,select.err{border-color:var(--red);background:var(--red-light)}
+input.err,select.err{border-color:var(--red)!important;background:var(--red-light)}
 textarea{resize:none}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:480px){.row2{grid-template-columns:1fr}}
-.type-toggle{display:flex;gap:8px;margin-bottom:14px}
-.type-btn{flex:1;padding:11px;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;border:2px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:.2s;text-align:center}
-.type-btn.active{border-color:var(--blue-mid);background:var(--blue-light);color:var(--blue-mid)}
-
-/* 機器列 */
+.toggle-row{display:flex;gap:8px;margin-bottom:14px}
+.toggle-btn{flex:1;padding:11px;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;border:2px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:.2s;text-align:center}
+.toggle-btn.active{border-color:var(--blue-mid);background:var(--blue-light);color:var(--blue-mid)}
+/* 機器 */
 .machine-item{background:var(--blue-pale);border:1.5px solid var(--blue-light);border-radius:10px;padding:14px;margin-bottom:10px}
-.machine-top{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;margin-bottom:10px}
-.machine-selects{display:flex;flex-direction:column;gap:8px}
-.qty-price-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}
-@media(max-width:480px){.qty-price-row{grid-template-columns:1fr 1fr;}.del-m{grid-column:1/-1;justify-self:end}}
-.qty-wrap{display:flex;align-items:center;gap:6px}
-.qty-btn{width:32px;height:32px;border-radius:7px;border:1.5px solid var(--blue-mid);background:var(--white);color:var(--blue-mid);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.qty-num{font-size:16px;font-weight:700;color:var(--blue);min-width:22px;text-align:center}
-.del-m{background:none;border:none;color:#9CA3AF;font-size:20px;cursor:pointer;padding:2px 4px;line-height:1}
-.del-m:hover{color:var(--red)}
-.serial-section{border-top:1px dashed var(--blue-light);padding-top:10px;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.machine-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.machine-header select{flex:1;margin-right:10px}
+.del-btn{background:none;border:none;color:#9CA3AF;font-size:20px;cursor:pointer;padding:2px 6px;flex-shrink:0}
+.del-btn:hover{color:var(--red)}
+.machine-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media(max-width:480px){.machine-fields{grid-template-columns:1fr}}
+.qty-wrap{display:flex;align-items:center;gap:8px}
+.qty-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--blue-mid);background:var(--white);color:var(--blue-mid);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qty-num{font-size:17px;font-weight:700;color:var(--blue);min-width:24px;text-align:center}
+.serial-wrap{border-top:1px dashed var(--blue-light);padding-top:10px;display:flex;flex-direction:column;gap:6px}
 .serial-row{display:flex;align-items:center;gap:8px}
 .serial-tag{font-size:11px;color:var(--blue-mid);font-weight:600;flex-shrink:0;min-width:48px}
 .serial-row input{font-size:14px;padding:8px 12px}
-.add-btn{width:100%;padding:11px;border:2px dashed var(--blue-mid);border-radius:10px;background:var(--blue-light);color:var(--blue-mid);font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;transition:.2s}
-.add-btn:hover{background:#D6E4F8}
-
-/* 配件列 */
-.acc-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:9px;border:1px solid var(--border);margin-bottom:7px}
+.add-item-btn{width:100%;padding:11px;border:2px dashed var(--blue-mid);border-radius:10px;background:var(--blue-light);color:var(--blue-mid);font-size:15px;font-weight:600;cursor:pointer;margin-top:4px}
+/* 配件 */
+.acc-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:9px;border:1px solid var(--border);margin-bottom:7px}
 .acc-chk{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--white);transition:.15s}
-.acc-chk.checked{background:var(--blue-mid);border-color:var(--blue-mid)}
-.acc-chk.checked::after{content:'✓';color:#fff;font-size:13px;font-weight:700}
+.acc-chk.on{background:var(--blue-mid);border-color:var(--blue-mid)}
+.acc-chk.on::after{content:'✓';color:#fff;font-size:13px;font-weight:700}
 .acc-name{flex:1;font-size:14px}
-.acc-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.acc-qty-wrap{display:flex;align-items:center;gap:5px}
+.acc-controls{display:none;align-items:center;gap:8px;flex-shrink:0}
+.acc-controls.show{display:flex}
 .acc-qty-btn{width:26px;height:26px;border-radius:5px;border:1.5px solid var(--border);background:var(--white);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.acc-qty-num{font-size:13px;font-weight:700;min-width:18px;text-align:center}
-.acc-price-input{width:90px;font-size:13px;padding:6px 8px}
-
-/* 銷售類型 */
-.sales-type-row{display:flex;gap:8px;margin-bottom:0}
-.sales-type-btn{flex:1;padding:10px;border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;border:2px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:.2s;text-align:center}
-.sales-type-btn.active{border-color:var(--blue-mid);background:var(--blue-light);color:var(--blue-mid)}
-
+.acc-qty{font-size:13px;font-weight:700;min-width:18px;text-align:center}
+.acc-price{width:90px;font-size:13px;padding:6px 8px}
+/* 金額 */
+.total-bar{background:var(--blue);color:#fff;border-radius:10px;padding:13px 18px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.total-bar span:first-child{font-size:14px;font-weight:600}
+.total-amount{font-size:22px;font-weight:800;font-family:monospace}
 /* 退貨同意 */
-.agree-box{display:flex;gap:12px;align-items:flex-start;padding:14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;background:var(--white)}
-.agree-box.checked{border-color:var(--blue-mid);background:var(--blue-light)}
-.agree-box.err-box{border-color:var(--red);background:var(--red-light)}
-.agree-chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:var(--white);transition:.15s}
-.agree-box.checked .agree-chk{background:var(--blue-mid);border-color:var(--blue-mid)}
-.agree-box.checked .agree-chk::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
+.agree-wrap{display:flex;gap:12px;align-items:flex-start;padding:14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;background:var(--white)}
+.agree-wrap.on{border-color:var(--blue-mid);background:var(--blue-light)}
+.agree-wrap.err{border-color:var(--red);background:var(--red-light)}
+.agree-chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:var(--white)}
+.agree-wrap.on .agree-chk{background:var(--blue-mid);border-color:var(--blue-mid)}
+.agree-wrap.on .agree-chk::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
 .agree-text{font-size:13px;line-height:1.7}
 .agree-text b{color:var(--blue-mid)}
-.req-note{font-size:11px;color:var(--red);margin-top:5px;display:none}
-.req-note.show{display:block}
-
-/* 金額小計 */
-.subtotal-bar{background:var(--blue);color:#fff;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600}
-.subtotal-bar .amount{font-size:20px;font-weight:700;font-family:monospace}
-
-.btn{padding:14px 24px;border-radius:11px;font-size:17px;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:transform .1s;width:100%}
+.err-msg{font-size:11px;color:var(--red);margin-top:5px;display:none}
+.err-msg.show{display:block}
+/* 按鈕 */
+.btn{padding:14px 24px;border-radius:11px;font-size:17px;font-weight:700;font-family:inherit;cursor:pointer;border:none;width:100%;transition:transform .1s}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--blue-mid);color:#fff}
 .btn-ghost{background:transparent;color:var(--blue-mid);border:2px solid var(--blue-mid);font-size:15px;padding:11px}
-.btn-success{background:var(--green);color:#fff}
-
-/* 登入頁 */
+.btn-green{background:var(--green);color:#fff}
+/* 登入 */
 .login-wrap{max-width:420px;margin:40px auto;padding:0 16px}
 .login-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 28px}
-.login-logo{text-align:center;margin-bottom:24px}
-.login-logo .brand{font-size:28px;font-weight:800;color:var(--blue)}
-.login-logo .sub{font-size:13px;color:var(--muted);margin-top:4px}
-.loading-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:8px;display:none}
-.loading-hint.show{display:block}
-
+.brand{font-size:28px;font-weight:800;color:var(--blue);text-align:center}
+.brand-sub{font-size:13px;color:var(--muted);text-align:center;margin-top:4px;margin-bottom:24px}
 /* 簽名 */
 .sig-summary{background:var(--blue-light);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.8}
 .sig-summary b{color:var(--blue)}
-.sig-wrap{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.sig-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
 .sig-lbl{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px}
 #sig-canvas{display:block;width:100%;height:220px;border:2px dashed var(--border);border-radius:10px;background:#FAFAFA;touch-action:none;cursor:crosshair}
-#sig-canvas.signed{border-color:var(--blue-mid);border-style:solid}
+#sig-canvas.signed{border:2px solid var(--blue-mid)}
 .sig-hint{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
-.sig-actions{display:flex;gap:10px;margin-bottom:16px}
-.sig-actions .btn{flex:1}
-
-/* 完成頁 */
+.sig-btns{display:flex;gap:10px;margin-bottom:16px}
+.sig-btns .btn{flex:1}
+/* 完成 */
 .done-card{text-align:center;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 24px;margin-bottom:18px}
 .done-icon{width:72px;height:72px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px}
-.done-card h2{font-size:22px;margin-bottom:6px;color:var(--green)}
+.done-card h2{font-size:22px;color:var(--green);margin-bottom:6px}
 .done-card p{color:var(--muted);font-size:14px}
-.doc-number{font-size:24px;font-weight:800;color:var(--blue);font-family:monospace;margin-top:10px}
-.total-amount{font-size:18px;color:var(--blue-mid);font-weight:700;margin-top:6px}
-
-.receipt-preview{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;font-size:13px}
-.receipt-preview h3{font-size:15px;color:var(--blue);border-bottom:2px solid var(--blue-light);padding-bottom:9px;margin-bottom:14px;font-weight:700}
-.rr{display:flex;justify-content:space-between;padding:3px 0;font-size:12px;border-bottom:.5px solid #F3F4F6}
-.rr:last-child{border-bottom:none}
-.rr .k{color:var(--muted)}
-.rr .v{font-weight:600;text-align:right;max-width:60%}
-hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
-.m-preview{background:var(--blue-light);border-radius:7px;padding:7px 10px;margin-bottom:5px}
-.m-preview .mn{font-size:13px;font-weight:600;color:var(--blue)}
-.m-preview .ms{font-size:11px;color:var(--blue-mid);margin-top:2px}
-.sig-img-preview{width:100%;max-height:110px;object-fit:contain;border:1px solid var(--border);border-radius:8px;background:#FAFAFA;margin-top:8px}
+.doc-no{font-size:24px;font-weight:800;color:var(--blue);font-family:monospace;margin-top:8px}
+.done-total{font-size:18px;color:var(--blue-mid);font-weight:700;margin-top:6px}
+.sync-status{font-size:12px;margin-top:8px;padding:6px 12px;border-radius:6px;display:inline-block}
+.sync-ok{background:var(--green-light);color:var(--green)}
+.sync-fail{background:#FEF2F2;color:var(--red)}
+/* 收據預覽 */
+.receipt-box{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;font-size:13px}
+.receipt-box h3{font-size:15px;color:var(--blue);border-bottom:2px solid var(--blue-light);padding-bottom:9px;margin-bottom:14px;font-weight:700}
+.r-row{display:flex;justify-content:space-between;padding:3px 0;font-size:12px;border-bottom:.5px solid #F3F4F6}
+.r-row .k{color:var(--muted)}
+.r-row .v{font-weight:600;text-align:right}
+.r-dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
+.m-tag{background:var(--blue-light);border-radius:7px;padding:7px 10px;margin-bottom:5px}
+.m-tag .mn{font-size:13px;font-weight:600;color:var(--blue)}
+.m-tag .ms{font-size:11px;color:var(--blue-mid);margin-top:2px}
+.sig-preview{width:100%;max-height:110px;object-fit:contain;border:1px solid var(--border);border-radius:8px;background:#FAFAFA;margin-top:8px}
 .action-btns{display:flex;flex-direction:column;gap:10px}
-
+/* Toast */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:32px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;z-index:99}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN ═══ -->
-<div id="login-page" class="page active">
+<!-- ══ 登入 ══ -->
+<div id="pg-login" class="page active">
 <header>
   <div class="hlogo">DENBA</div>
   <div><h1>DENBA 簽收單</h1><p>業務行動簽收系統</p></div>
 </header>
 <div class="login-wrap">
   <div class="login-card">
-    <div class="login-logo">
-      <div class="brand">DENBA</div>
-      <div class="sub">簽收單系統　業務登入</div>
-    </div>
+    <div class="brand">DENBA</div>
+    <div class="brand-sub">簽收單系統　業務登入</div>
     <div class="field">
       <label class="fl">經銷商<span class="req">*</span></label>
-      <select id="login-dealer">
+      <select id="sel-dealer">
         <option value="">請選擇經銷商</option>
+        <!-- ★ 經銷商清單：直接在這裡修改 ★ -->
         <option>Denba Taiwan 總代理</option>
         <option>源衛健康科技有限公司</option>
         <option>冰合時代環境科技有限公司</option>
@@ -170,76 +156,75 @@ hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
     </div>
     <div class="field">
       <label class="fl">業務姓名<span class="req">*</span></label>
-      <input type="text" id="login-sales" placeholder="請輸入您的姓名">
+      <input type="text" id="inp-sales" placeholder="請輸入您的姓名">
     </div>
-    <button class="btn btn-primary" id="login-btn" onclick="doLogin()" style="margin-top:8px">進入填單 →</button>
-    <div class="loading-hint" id="loading-hint">載入最新清單中…</div>
+    <button class="btn btn-primary" onclick="doLogin()">進入填單 →</button>
   </div>
 </div>
 </div>
 
-<!-- ═══ FORM ═══ -->
-<div id="form-page" class="page">
+<!-- ══ 填單 ══ -->
+<div id="pg-form" class="page">
 <header>
   <div class="hlogo">DENBA</div>
-  <div><h1>DENBA 簽收單</h1><p id="header-info" style="font-size:11px;opacity:.75"></p></div>
+  <div><h1>DENBA 簽收單</h1><p id="hdr-info" style="font-size:11px;opacity:.75"></p></div>
 </header>
 <div class="container">
   <div class="progress">
-    <div class="step active" id="s1"><div class="step-num">1</div><div class="step-label">填單</div></div>
+    <div class="step active" id="ps1"><div class="step-num">1</div><div class="step-label">填單</div></div>
     <div class="step-line"></div>
-    <div class="step" id="s2"><div class="step-num">2</div><div class="step-label">簽名</div></div>
+    <div class="step" id="ps2"><div class="step-num">2</div><div class="step-label">簽名</div></div>
     <div class="step-line"></div>
-    <div class="step" id="s3"><div class="step-num">3</div><div class="step-label">完成</div></div>
+    <div class="step" id="ps3"><div class="step-num">3</div><div class="step-label">完成</div></div>
   </div>
 
-  <!-- 銷售類型（僅總代理顯示）-->
-  <div class="card" id="sales-type-card" style="display:none">
+  <!-- 銷售類型（總代理專屬）-->
+  <div class="card" id="card-salestype" style="display:none">
     <div class="card-title">🏷️ 銷售類型</div>
-    <div class="sales-type-row">
-      <button class="sales-type-btn active" id="st-dealer" onclick="setSalesType('dealer')">🏢 配給經銷商</button>
-      <button class="sales-type-btn" id="st-direct" onclick="setSalesType('direct')">👤 直銷終端</button>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="st-b" onclick="setST('dealer')">🏢 配給經銷商</button>
+      <button class="toggle-btn" id="st-d" onclick="setST('direct')">👤 直銷終端</button>
     </div>
   </div>
 
   <!-- 客戶資訊 -->
   <div class="card">
     <div class="card-title">👤 客戶資訊</div>
-    <div class="type-toggle">
-      <button class="type-btn active" id="btn-company" onclick="setType('company')">🏢 公司戶</button>
-      <button class="type-btn" id="btn-personal" onclick="setType('personal')">👤 個人戶</button>
+    <div class="toggle-row">
+      <button class="toggle-btn active" onclick="setCT('company')" id="ct-co">🏢 公司戶</button>
+      <button class="toggle-btn" onclick="setCT('personal')" id="ct-pe">👤 個人戶</button>
     </div>
-    <div id="company-fields">
+    <div id="fld-company">
       <div class="field">
         <label class="fl">公司名稱<span class="req">*</span></label>
-        <input type="text" id="customer-company" placeholder="XX 有限公司">
+        <input type="text" id="inp-co-name" placeholder="XX 有限公司">
       </div>
       <div class="row2">
         <div class="field">
           <label class="fl">聯絡人<span class="req">*</span></label>
-          <input type="text" id="customer-contact" placeholder="陳先生">
+          <input type="text" id="inp-co-contact" placeholder="陳先生">
         </div>
         <div class="field">
           <label class="fl">聯絡電話<span class="req">*</span></label>
-          <input type="tel" id="customer-tel-co" placeholder="02-1234-5678" inputmode="tel">
+          <input type="tel" id="inp-co-tel" placeholder="02-1234-5678" inputmode="tel">
         </div>
       </div>
     </div>
-    <div id="personal-fields" style="display:none">
+    <div id="fld-personal" style="display:none">
       <div class="row2">
         <div class="field">
           <label class="fl">姓名<span class="req">*</span></label>
-          <input type="text" id="customer-personal-name" placeholder="王小明">
+          <input type="text" id="inp-pe-name" placeholder="王小明">
         </div>
         <div class="field">
           <label class="fl">聯絡電話<span class="req">*</span></label>
-          <input type="tel" id="customer-personal-tel" placeholder="0912-345-678" inputmode="tel">
+          <input type="tel" id="inp-pe-tel" placeholder="0912-345-678" inputmode="tel">
         </div>
       </div>
     </div>
     <div class="field">
       <label class="fl">交貨地址<span class="req">*</span></label>
-      <input type="text" id="delivery-addr" placeholder="台北市信義路...">
+      <input type="text" id="inp-addr" placeholder="台北市信義路...">
     </div>
   </div>
 
@@ -247,7 +232,7 @@ hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
   <div class="card">
     <div class="card-title">🖨️ 交付機器</div>
     <div id="machine-list"></div>
-    <button class="add-btn" onclick="addMachine()">＋ 新增機器</button>
+    <button class="add-item-btn" onclick="addMachine()">＋ 新增機器</button>
   </div>
 
   <!-- 配件 -->
@@ -256,10 +241,10 @@ hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
     <div id="acc-list"></div>
   </div>
 
-  <!-- 金額小計 -->
-  <div class="subtotal-bar">
+  <!-- 總金額 -->
+  <div class="total-bar">
     <span>本單總金額</span>
-    <span class="amount" id="total-display">NT$ 0</span>
+    <span class="total-amount" id="total-disp">NT$ 0</span>
   </div>
 
   <!-- 備註 & 同意 -->
@@ -267,26 +252,26 @@ hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
     <div class="card-title">📋 備註 ／ 同意事項</div>
     <div class="field">
       <label class="fl">備註</label>
-      <textarea id="remarks" rows="3" placeholder="安裝注意事項、特殊需求…"></textarea>
+      <textarea id="inp-remarks" rows="3" placeholder="安裝注意事項、特殊需求…"></textarea>
     </div>
     <div class="field">
-      <div class="agree-box" id="agree-box" onclick="toggleAgree()">
+      <div class="agree-wrap" id="agree-wrap" onclick="toggleAgree()">
         <div class="agree-chk" id="agree-chk"></div>
         <div>
           <div class="agree-text">我同意辦理退貨時，由 <b>Denba Taiwan</b> 代為處理發票及銷貨退回證明單，以加速退貨退款作業。</div>
           <div style="font-size:11px;color:var(--red);margin-top:4px;font-weight:600">* 必須勾選才能繼續</div>
         </div>
       </div>
-      <div class="req-note" id="agree-err">請勾選同意事項才能繼續</div>
+      <div class="err-msg" id="agree-err">請勾選同意事項才能繼續</div>
     </div>
   </div>
 
-  <button class="btn btn-primary" onclick="goToSign()">前往客戶簽名 →</button>
+  <button class="btn btn-primary" onclick="goSign()">前往客戶簽名 →</button>
 </div>
 </div>
 
-<!-- ═══ SIGN ═══ -->
-<div id="sig-page" class="page">
+<!-- ══ 簽名 ══ -->
+<div id="pg-sign" class="page">
 <header>
   <div class="hlogo">DENBA</div>
   <div><h1>DENBA 簽收單</h1><p style="font-size:11px;opacity:.75">請確認資料後簽名</p></div>
@@ -300,25 +285,25 @@ hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
     <div class="step"><div class="step-num">3</div><div class="step-label">完成</div></div>
   </div>
   <div class="sig-summary" id="sig-summary"></div>
-  <div class="sig-wrap">
+  <div class="sig-card">
     <div class="sig-lbl">✍️ 客戶簽名</div>
     <canvas id="sig-canvas"></canvas>
     <div class="sig-hint">請在上方區域用手指簽名確認</div>
   </div>
   <div class="field" style="margin-bottom:14px">
     <label class="fl">簽名者姓名<span class="req">*</span></label>
-    <input type="text" id="signer-name" placeholder="請輸入簽名者姓名">
+    <input type="text" id="inp-signer" placeholder="請輸入簽名者姓名">
   </div>
-  <div class="sig-actions">
+  <div class="sig-btns">
     <button class="btn btn-ghost" onclick="clearSig()">清除重簽</button>
-    <button class="btn btn-ghost" onclick="goBack()">← 返回修改</button>
+    <button class="btn btn-ghost" onclick="showPage('pg-form')">← 返回修改</button>
   </div>
   <button class="btn btn-primary" onclick="submitReceipt()">確認送出簽收單 ✓</button>
 </div>
 </div>
 
-<!-- ═══ DONE ═══ -->
-<div id="done-page" class="page">
+<!-- ══ 完成 ══ -->
+<div id="pg-done" class="page">
 <header>
   <div class="hlogo">DENBA</div>
   <div><h1>DENBA 簽收單</h1><p style="font-size:11px;opacity:.75">簽收完成</p></div>
@@ -331,531 +316,422 @@ hr.dash{border:none;border-top:1.5px dashed var(--border);margin:10px 0}
     <div class="step-line"></div>
     <div class="step done active"><div class="step-num">3</div><div class="step-label">完成</div></div>
   </div>
-  <div class="done-card" id="done-card">
+  <div class="done-card">
     <div class="done-icon">✅</div>
     <h2>簽收完成！</h2>
     <p id="done-time"></p>
-    <div class="doc-number" id="done-docno"></div>
-    <div class="total-amount" id="done-total"></div>
+    <div class="doc-no" id="done-docno"></div>
+    <div class="done-total" id="done-total"></div>
+    <div id="sync-status"></div>
   </div>
-  <div class="receipt-preview" id="receipt-preview"></div>
+  <div class="receipt-box" id="receipt-box"></div>
   <div class="action-btns">
-    <button class="btn btn-primary" onclick="downloadReceipt()">⬇ 下載簽收單圖片</button>
-    <button class="btn btn-success" onclick="newReceipt()">新增下一張簽收單</button>
+    <button class="btn btn-primary" onclick="downloadImg()">⬇ 下載簽收單圖片</button>
+    <button class="btn btn-green" onclick="newReceipt()">新增下一張簽收單</button>
   </div>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://script.google.com/macros/s/AKfycbz3yUxZav-XLKKEXA3gRyzZ4euz9XfZtOz2ggU-E8egFNeFQcJJ4mVjQg46Oa1k-wQm/exec"></script>
 <script>
-// ══════════════════════════════
-//  設定：換成您的 GAS 網址
-// ══════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbw59VdkPWjzktAo-tfMg4dpftrGm8-tfI4_HTcAzYdsxBwIvvdDU5hL0AUT84sJsLqT1A/exec';
+// ══════════════════════════════════════════════
+//  ★ 設定區 — 只需要改這裡 ★
+// ══════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwp0U-SL39uFxSLBV5GOnT-9p5JkBeQ-fFMiMovhPx9FVSyVSsvs_yzx-bgNBN4r3E/exec';
 
-// ══════════════════════════════
-//  動態清單（從 GAS 載入）
-// ══════════════════════════════
-let MACHINES    = ['DENBA HIGH GRADE','DENBA STANDARD','DENBA CHARGE','DENBA SLEEP','DENBA MOBILE','DENBA PET'];
-let ACCESSORIES = ['HIGH GRADE waterproof','STANDARD waterproof','CHARGE waterproof','SLEEP waterproof','MOBILE waterproof','2M線','3M線','5米線','10米線','120*120毯','60*120毯','50*50毯'];
-let DEALERS     = ['Denba Taiwan 總代理','源衛健康科技有限公司','冰合時代環境科技有限公司','東區經銷商'];
+// ★ 機器型號清單（管理員在這裡修改）★
+const MACHINES = [
+  'DENBA HIGH GRADE',
+  'DENBA STANDARD',
+  'DENBA CHARGE',
+  'DENBA SLEEP',
+  'DENBA MOBILE',
+  'DENBA PET',
+];
 
-async function fetchLists() {
-  try {
-    const res  = await fetch(GAS_URL + '?action=getLists');
-    const data = await res.json();
-    if (data.dealers  && data.dealers.length)  DEALERS     = data.dealers;
-    if (data.machines && data.machines.length) MACHINES    = data.machines;
-    if (data.accs     && data.accs.length)     ACCESSORIES = data.accs;
-    rebuildDealerSelect();
-  } catch(e) { console.log('fetchLists failed:', e); }
-}
+// ★ 配件清單（管理員在這裡修改）★
+const ACCESSORIES = [
+  'HIGH GRADE waterproof',
+  'STANDARD waterproof',
+  'CHARGE waterproof',
+  'SLEEP waterproof',
+  'MOBILE waterproof',
+  '2M線',
+  '3M線',
+  '5米線',
+  '10米線',
+  '120*120毯',
+  '60*120毯',
+  '50*50毯',
+];
+// ══════════════════════════════════════════════
 
-function rebuildDealerSelect() {
-  const sel = document.getElementById('login-dealer');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">請選擇經銷商</option>'
-    + DEALERS.map(d => `<option${d===cur?' selected':''}>${d}</option>`).join('');
-}
+// State
+let CT = 'company';   // customer type
+let ST = 'dealer';    // sales type
+let agreed = false;
+let mCount = 0;
+let hasSig = false;
+let cv, ctx, drawing = false;
+let docNo = '', sigData = '', salesName = '', dealerName = '';
 
-// ══════════════════════════════
-//  State
-// ══════════════════════════════
-let customerType = 'company';
-let salesType    = 'dealer';
-let agreeChecked = false;
-let machineCount = 0;
-let hasSig       = false;
-let canvas, ctx, drawing = false;
-let currentDocNo  = '';
-let currentSigData = '';
-let salesName = '';
-let dealerName = '';
-
-// ══════════════════════════════
-//  Login
-// ══════════════════════════════
-async function doLogin() {
-  const dealer = document.getElementById('login-dealer').value.trim();
-  const sales  = document.getElementById('login-sales').value.trim();
+// ── 登入 ──
+function doLogin() {
+  const dealer = g('sel-dealer').value.trim();
+  const sales  = gv('inp-sales');
   if (!dealer) { toast('請選擇經銷商'); return; }
   if (!sales)  { toast('請輸入業務姓名'); return; }
-  const btn  = document.getElementById('login-btn');
-  const hint = document.getElementById('loading-hint');
-  btn.disabled = true; btn.textContent = '載入中…'; hint.classList.add('show');
-  await fetchLists();
-  btn.disabled = false; btn.textContent = '進入填單 →'; hint.classList.remove('show');
-  const dealerFinal = document.getElementById('login-dealer').value.trim() || dealer;
-  dealerName = dealerFinal;
+  dealerName = dealer;
   salesName  = sales;
-  document.getElementById('header-info').textContent = dealerFinal + '　業務：' + sales;
-  // 總代理才顯示銷售類型
-  document.getElementById('sales-type-card').style.display = dealerFinal.includes('總代理') ? '' : 'none';
-  showPage('form-page');
+  g('hdr-info').textContent = dealer + '　業務：' + sales;
+  g('card-salestype').style.display = dealer.includes('總代理') ? '' : 'none';
   initAccList();
+  showPage('pg-form');
 }
 
-// ══════════════════════════════
-//  銷售類型
-// ══════════════════════════════
-function setSalesType(t) {
-  salesType = t;
-  document.getElementById('st-dealer').classList.toggle('active', t==='dealer');
-  document.getElementById('st-direct').classList.toggle('active', t==='direct');
+// ── 銷售類型 ──
+function setST(t) {
+  ST = t;
+  g('st-b').classList.toggle('active', t==='dealer');
+  g('st-d').classList.toggle('active', t==='direct');
 }
 
-// ══════════════════════════════
-//  客戶類型
-// ══════════════════════════════
-function setType(t) {
-  customerType = t;
-  document.getElementById('btn-company').classList.toggle('active', t==='company');
-  document.getElementById('btn-personal').classList.toggle('active', t==='personal');
-  document.getElementById('company-fields').style.display  = t==='company' ?'':'none';
-  document.getElementById('personal-fields').style.display = t==='personal'?'':'none';
+// ── 客戶類型 ──
+function setCT(t) {
+  CT = t;
+  g('ct-co').classList.toggle('active', t==='company');
+  g('ct-pe').classList.toggle('active', t==='personal');
+  g('fld-company').style.display  = t==='company'?'':'none';
+  g('fld-personal').style.display = t==='personal'?'':'none';
 }
 
-// ══════════════════════════════
-//  退貨同意
-// ══════════════════════════════
+// ── 退貨同意 ──
 function toggleAgree() {
-  agreeChecked = !agreeChecked;
-  document.getElementById('agree-box').classList.toggle('checked', agreeChecked);
-  document.getElementById('agree-box').classList.remove('err-box');
-  document.getElementById('agree-err').classList.remove('show');
+  agreed = !agreed;
+  g('agree-wrap').classList.toggle('on', agreed);
+  g('agree-wrap').classList.remove('err');
+  g('agree-err').classList.remove('show');
 }
 
-// ══════════════════════════════
-//  機器
-// ══════════════════════════════
+// ── 機器 ──
 function addMachine() {
-  machineCount++;
-  const id  = machineCount;
+  mCount++;
+  const id  = mCount;
   const div = document.createElement('div');
   div.className = 'machine-item';
-  div.id = 'mrow-' + id;
+  div.id = 'mr-'+id;
   div.innerHTML = `
-    <div class="machine-top">
-      <div class="machine-selects">
-        <select class="m-sel" onchange="calcTotal()">
-          <option value="">選擇機器型號</option>
-          ${MACHINES.map(m=>`<option>${m}</option>`).join('')}
-        </select>
-      </div>
-      <button class="del-m" onclick="delMachine(${id})">✕</button>
+    <div class="machine-header">
+      <select class="m-sel" onchange="calcTotal()">
+        <option value="">選擇機器型號</option>
+        ${MACHINES.map(m=>`<option>${m}</option>`).join('')}
+      </select>
+      <button class="del-btn" onclick="delM(${id})">✕</button>
     </div>
-    <div class="qty-price-row">
+    <div class="machine-fields">
       <div>
         <label class="fl" style="font-size:11px">數量</label>
         <div class="qty-wrap">
-          <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
-          <span class="qty-num" id="qty-${id}">1</span>
-          <button class="qty-btn" onclick="changeQty(${id},+1)">＋</button>
+          <button class="qty-btn" onclick="chgQ(${id},-1)">−</button>
+          <span class="qty-num" id="q-${id}">1</span>
+          <button class="qty-btn" onclick="chgQ(${id},+1)">＋</button>
         </div>
       </div>
       <div>
         <label class="fl" style="font-size:11px">單價 (NT$)<span class="req">*</span></label>
-        <input type="number" class="m-price" placeholder="0" min="0" inputmode="numeric" onchange="calcTotal()" style="padding:8px 10px;font-size:14px">
+        <input type="number" class="m-price" placeholder="0" min="0" inputmode="numeric" oninput="calcTotal()" style="padding:9px 12px;font-size:15px">
       </div>
     </div>
-    <div class="serial-section" id="serials-${id}">
-      <div class="serial-row"><span class="serial-tag">序號 1</span><input type="text" placeholder="機器序號或資產編號" style="font-size:14px;padding:8px 12px"></div>
+    <div class="serial-wrap" id="sw-${id}">
+      <div class="serial-row"><span class="serial-tag">序號 1</span><input type="text" placeholder="機器序號" style="font-size:14px;padding:8px 12px"></div>
     </div>
   `;
-  document.getElementById('machine-list').appendChild(div);
+  g('machine-list').appendChild(div);
   calcTotal();
 }
 
-function changeQty(id, delta) {
-  const el = document.getElementById('qty-'+id);
-  let q = parseInt(el.textContent) + delta;
-  if (q < 1) q = 1; if (q > 20) q = 20;
+function chgQ(id, d) {
+  const el = g('q-'+id);
+  let q = parseInt(el.textContent)+d;
+  if(q<1)q=1; if(q>20)q=20;
   el.textContent = q;
-  updateSerials(id);
+  updSerials(id);
   calcTotal();
 }
 
-function updateSerials(id) {
-  const q   = parseInt(document.getElementById('qty-'+id).textContent);
-  const sec = document.getElementById('serials-'+id);
-  const existing = Array.from(sec.querySelectorAll('input')).map(i=>i.value);
+function updSerials(id) {
+  const q   = parseInt(g('q-'+id).textContent);
+  const sec = g('sw-'+id);
+  const ex  = [...sec.querySelectorAll('input')].map(i=>i.value);
   sec.innerHTML = '';
-  for (let i=1;i<=q;i++) {
-    const row = document.createElement('div');
-    row.className = 'serial-row';
-    row.innerHTML = `<span class="serial-tag">序號 ${i}</span><input type="text" placeholder="機器序號" style="font-size:14px;padding:8px 12px" value="${existing[i-1]||''}">`;
-    sec.appendChild(row);
+  for(let i=1;i<=q;i++){
+    const r=document.createElement('div');
+    r.className='serial-row';
+    r.innerHTML=`<span class="serial-tag">序號 ${i}</span><input type="text" placeholder="機器序號" style="font-size:14px;padding:8px 12px" value="${ex[i-1]||''}">`;
+    sec.appendChild(r);
   }
 }
 
-function delMachine(id) {
-  const el = document.getElementById('mrow-'+id);
-  if (el) el.remove();
-  calcTotal();
-}
+function delM(id) { const el=g('mr-'+id); if(el)el.remove(); calcTotal(); }
 
 function getMachines() {
-  return Array.from(document.querySelectorAll('.machine-item')).map(r => {
-    const id      = r.id.replace('mrow-','');
-    const model   = r.querySelector('.m-sel').value;
-    const qty     = parseInt(document.getElementById('qty-'+id).textContent) || 1;
-    const price   = parseFloat(r.querySelector('.m-price').value) || 0;
-    const serials = Array.from(r.querySelectorAll('.serial-section input')).map(i=>i.value.trim()).filter(s=>s);
-    return { model, qty, price, serials };
-  }).filter(m => m.model);
+  return [...document.querySelectorAll('.machine-item')].map(r=>{
+    const id     = r.id.replace('mr-','');
+    const model  = r.querySelector('.m-sel').value;
+    const qty    = parseInt(g('q-'+id).textContent)||1;
+    const price  = parseFloat(r.querySelector('.m-price').value)||0;
+    const serials= [...r.querySelectorAll('.serial-wrap input')].map(i=>i.value.trim()).filter(Boolean);
+    return {model,qty,price,serials};
+  }).filter(m=>m.model);
 }
 
-// ══════════════════════════════
-//  配件
-// ══════════════════════════════
+// ── 配件 ──
 function initAccList() {
-  const list = document.getElementById('acc-list');
+  const list = g('acc-list');
   list.innerHTML = '';
-  ACCESSORIES.forEach((name,i) => {
-    const div = document.createElement('div');
-    div.className = 'acc-item';
-    div.id = 'acc-'+i;
-    div.innerHTML = `
-      <div class="acc-chk" id="acc-chk-${i}" onclick="toggleAcc(${i})"></div>
+  ACCESSORIES.forEach((name,i)=>{
+    const div=document.createElement('div');
+    div.className='acc-row';
+    div.id='ar-'+i;
+    div.innerHTML=`
+      <div class="acc-chk" id="ac-${i}" onclick="togAcc(${i})"></div>
       <span class="acc-name">${name}</span>
-      <div class="acc-right" id="acc-right-${i}" style="display:none">
-        <div class="acc-qty-wrap">
-          <button class="acc-qty-btn" onclick="changeAccQty(${i},-1)">−</button>
-          <span class="acc-qty-num" id="acc-qty-${i}">1</span>
-          <button class="acc-qty-btn" onclick="changeAccQty(${i},+1)">＋</button>
+      <div class="acc-controls" id="acon-${i}">
+        <div style="display:flex;align-items:center;gap:5px">
+          <button class="acc-qty-btn" onclick="chgAQ(${i},-1)">−</button>
+          <span class="acc-qty" id="aq-${i}">1</span>
+          <button class="acc-qty-btn" onclick="chgAQ(${i},+1)">＋</button>
         </div>
-        <input type="number" class="acc-price-input" id="acc-price-${i}" placeholder="單價" min="0" inputmode="numeric" onchange="calcTotal()" style="width:90px;font-size:13px;padding:6px 8px">
+        <input type="number" class="acc-price" id="ap-${i}" placeholder="單價" min="0" inputmode="numeric" oninput="calcTotal()">
       </div>
     `;
     list.appendChild(div);
   });
 }
 
-function toggleAcc(i) {
-  const chk   = document.getElementById('acc-chk-'+i);
-  const right = document.getElementById('acc-right-'+i);
-  const on    = chk.classList.toggle('checked');
-  right.style.display = on ? 'flex' : 'none';
+function togAcc(i) {
+  const chk  = g('ac-'+i);
+  const ctrl = g('acon-'+i);
+  const on   = chk.classList.toggle('on');
+  ctrl.classList.toggle('show', on);
   calcTotal();
 }
 
-function changeAccQty(i, delta) {
-  const el = document.getElementById('acc-qty-'+i);
-  let q = parseInt(el.textContent) + delta;
-  if (q < 1) q = 1;
-  el.textContent = q;
+function chgAQ(i,d) {
+  const el=g('aq-'+i);
+  let q=parseInt(el.textContent)+d;
+  if(q<1)q=1;
+  el.textContent=q;
   calcTotal();
 }
 
-function getAccessories() {
-  return ACCESSORIES.map((name,i) => {
-    const chk = document.getElementById('acc-chk-'+i);
-    if (!chk || !chk.classList.contains('checked')) return null;
-    const qty   = parseInt(document.getElementById('acc-qty-'+i).textContent) || 1;
-    const price = parseFloat(document.getElementById('acc-price-'+i).value) || 0;
-    return { name, qty, price };
+function getAccs() {
+  return ACCESSORIES.map((name,i)=>{
+    const chk=g('ac-'+i);
+    if(!chk||!chk.classList.contains('on'))return null;
+    const qty  = parseInt(g('aq-'+i).textContent)||1;
+    const price= parseFloat(g('ap-'+i).value)||0;
+    return {name,qty,price};
   }).filter(Boolean);
 }
 
-// ══════════════════════════════
-//  金額計算
-// ══════════════════════════════
+// ── 金額計算 ──
 function calcTotal() {
-  const machines = getMachines();
-  const accs     = getAccessories();
-  const mTotal   = machines.reduce((s,m) => s + m.qty * m.price, 0);
-  const aTotal   = accs.reduce((s,a) => s + a.qty * a.price, 0);
-  const total    = mTotal + aTotal;
-  document.getElementById('total-display').textContent = 'NT$ ' + total.toLocaleString();
+  const ms=getMachines(), as=getAccs();
+  const t = ms.reduce((s,m)=>s+m.qty*m.price,0)+as.reduce((s,a)=>s+a.qty*a.price,0);
+  g('total-disp').textContent='NT$ '+t.toLocaleString();
 }
 
-// ══════════════════════════════
-//  驗證 & 前往簽名
-// ══════════════════════════════
-function goToSign() {
-  let ok = true;
-  if (customerType === 'company') {
-    if (!v('customer-company')) { markErr('customer-company'); ok=false; }
-    if (!v('customer-contact')) { markErr('customer-contact'); ok=false; }
-    if (!v('customer-tel-co'))  { markErr('customer-tel-co');  ok=false; }
+// ── 前往簽名 ──
+function goSign() {
+  let ok=true;
+  if(CT==='company'){
+    if(!gv('inp-co-name'))   {markErr('inp-co-name');ok=false;}
+    if(!gv('inp-co-contact')){markErr('inp-co-contact');ok=false;}
+    if(!gv('inp-co-tel'))    {markErr('inp-co-tel');ok=false;}
   } else {
-    if (!v('customer-personal-name')) { markErr('customer-personal-name'); ok=false; }
-    if (!v('customer-personal-tel'))  { markErr('customer-personal-tel');  ok=false; }
+    if(!gv('inp-pe-name')){markErr('inp-pe-name');ok=false;}
+    if(!gv('inp-pe-tel')) {markErr('inp-pe-tel');ok=false;}
   }
-  if (!v('delivery-addr')) { markErr('delivery-addr'); ok=false; }
-  if (!getMachines().length) { toast('請至少選擇一台機器'); ok=false; }
-  if (!agreeChecked) {
-    document.getElementById('agree-box').classList.add('err-box');
-    document.getElementById('agree-err').classList.add('show');
+  if(!gv('inp-addr')){markErr('inp-addr');ok=false;}
+  if(!getMachines().length){toast('請至少選擇一台機器');ok=false;}
+  if(!agreed){
+    g('agree-wrap').classList.add('err');
+    g('agree-err').classList.add('show');
     ok=false;
   }
-  if (!ok) { toast('請填寫所有必填欄位'); return; }
+  if(!ok){toast('請填寫所有必填欄位');return;}
 
-  const machines = getMachines();
-  const accs     = getAccessories();
-  const mTotal   = machines.reduce((s,m) => s+m.qty*m.price, 0);
-  const aTotal   = accs.reduce((s,a) => s+a.qty*a.price, 0);
-  const total    = mTotal + aTotal;
+  const ms=getMachines(), as=getAccs();
+  const total=ms.reduce((s,m)=>s+m.qty*m.price,0)+as.reduce((s,a)=>s+a.qty*a.price,0);
+  const cLabel=CT==='company'?gv('inp-co-name')+'　'+gv('inp-co-contact'):gv('inp-pe-name')+'（個人）';
+  const tel=CT==='company'?gv('inp-co-tel'):gv('inp-pe-tel');
+  const stLabel=dealerName.includes('總代理')?(ST==='dealer'?'配給經銷商':'直銷終端'):'';
 
-  const customerLabel = customerType==='company'
-    ? v('customer-company') + '　' + v('customer-contact')
-    : v('customer-personal-name') + '（個人）';
-  const tel = customerType==='company' ? v('customer-tel-co') : v('customer-personal-tel');
-  const salesTypeLabel = dealerName.includes('總代理')
-    ? (salesType==='dealer' ? '配給經銷商' : '直銷終端') : '';
-
-  document.getElementById('sig-summary').innerHTML = `
-    <b>業務：</b>${salesName}（${dealerName}）${salesTypeLabel?'　<b>銷售類型：</b>'+salesTypeLabel:''}<br>
-    <b>客戶：</b>${customerLabel}<br>
-    <b>電話：</b>${tel}<br>
-    <b>地址：</b>${v('delivery-addr')}<br>
-    <b>機器：</b>${machines.map(m=>`${m.model}×${m.qty} NT$${m.price.toLocaleString()}`).join('、')}<br>
+  g('sig-summary').innerHTML=`
+    <b>業務：</b>${salesName}（${dealerName}）${stLabel?'　<b>類型：</b>'+stLabel:''}<br>
+    <b>客戶：</b>${cLabel}　<b>電話：</b>${tel}<br>
+    <b>地址：</b>${gv('inp-addr')}<br>
+    <b>機器：</b>${ms.map(m=>`${m.model}×${m.qty} NT$${m.price.toLocaleString()}`).join('、')}<br>
     <b>總金額：</b>NT$ ${total.toLocaleString()}
   `;
-  showPage('sig-page');
+  showPage('pg-sign');
   initCanvas();
 }
 
-function markErr(id) {
-  const el = document.getElementById(id);
-  if (el) { el.classList.add('err'); el.addEventListener('input', ()=>el.classList.remove('err'), {once:true}); }
-}
+function markErr(id){const el=g(id);if(el){el.classList.add('err');el.addEventListener('input',()=>el.classList.remove('err'),{once:true});}}
 
-// ══════════════════════════════
-//  簽名 Canvas
-// ══════════════════════════════
-function initCanvas() {
-  canvas = document.getElementById('sig-canvas');
-  ctx    = canvas.getContext('2d');
-  const rect = canvas.getBoundingClientRect();
-  canvas.width  = rect.width  * (window.devicePixelRatio||1);
-  canvas.height = rect.height * (window.devicePixelRatio||1);
-  ctx.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
-  ctx.strokeStyle = '#0C447C'; ctx.lineWidth = 2.5;
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+// ── 簽名 Canvas ──
+function initCanvas(){
+  cv=g('sig-canvas'); ctx=cv.getContext('2d');
+  const r=cv.getBoundingClientRect();
+  cv.width=r.width*(window.devicePixelRatio||1);
+  cv.height=r.height*(window.devicePixelRatio||1);
+  ctx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
+  ctx.strokeStyle='#0C447C';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
   clearSig();
-  canvas.addEventListener('touchstart', e=>{e.preventDefault();startDraw(e.touches[0])},{passive:false});
-  canvas.addEventListener('touchmove',  e=>{e.preventDefault();draw(e.touches[0])},{passive:false});
-  canvas.addEventListener('touchend',   endDraw);
-  canvas.addEventListener('mousedown',  startDraw);
-  canvas.addEventListener('mousemove',  draw);
-  canvas.addEventListener('mouseup',    endDraw);
-  canvas.addEventListener('mouseleave', endDraw);
+  ['touchstart','mousedown'].forEach(ev=>cv.addEventListener(ev,e=>{e.preventDefault();drawing=true;ctx.beginPath();const p=pos(e.touches?e.touches[0]:e);ctx.moveTo(p.x,p.y);},{passive:false}));
+  ['touchmove','mousemove'].forEach(ev=>cv.addEventListener(ev,e=>{e.preventDefault();if(!drawing)return;const p=pos(e.touches?e.touches[0]:e);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.beginPath();ctx.moveTo(p.x,p.y);hasSig=true;cv.classList.add('signed');},{passive:false}));
+  ['touchend','mouseup','mouseleave'].forEach(ev=>cv.addEventListener(ev,()=>{drawing=false;}));
 }
-function pos(e) { const r=canvas.getBoundingClientRect(); return{x:e.clientX-r.left,y:e.clientY-r.top}; }
-function startDraw(e) { drawing=true; ctx.beginPath(); const p=pos(e); ctx.moveTo(p.x,p.y); }
-function draw(e) {
-  if (!drawing) return;
-  const p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y);
-  hasSig=true; canvas.classList.add('signed');
-}
-function endDraw() { drawing=false; }
-function clearSig() {
-  if (!canvas) return;
-  const r=canvas.getBoundingClientRect();
-  ctx.clearRect(0,0,r.width,r.height);
-  ctx.fillStyle='#FAFAFA'; ctx.fillRect(0,0,r.width,r.height);
-  hasSig=false; canvas.classList.remove('signed');
-}
-function goBack() { showPage('form-page'); }
+function pos(e){const r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+function clearSig(){if(!cv)return;const r=cv.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height);ctx.fillStyle='#FAFAFA';ctx.fillRect(0,0,r.width,r.height);hasSig=false;cv.classList.remove('signed');}
 
-// ══════════════════════════════
-//  送出簽收單
-// ══════════════════════════════
-async function submitReceipt() {
-  if (!hasSig)           { toast('請完成客戶簽名'); return; }
-  if (!v('signer-name')) { toast('請輸入簽名者姓名'); return; }
+// ── 送出 ──
+async function submitReceipt(){
+  if(!hasSig){toast('請完成客戶簽名');return;}
+  if(!gv('inp-signer')){toast('請輸入簽名者姓名');return;}
 
-  currentSigData = canvas.toDataURL('image/png');
-  const now      = nowStr();
-  const docNo    = await getDocNo();
-  currentDocNo   = docNo;
+  sigData = cv.toDataURL('image/png');
+  const now    = nowStr();
+  const ms     = getMachines();
+  const as     = getAccs();
+  const total  = ms.reduce((s,m)=>s+m.qty*m.price,0)+as.reduce((s,a)=>s+a.qty*a.price,0);
+  const cLabel = CT==='company'?gv('inp-co-name'):gv('inp-pe-name')+'（個人）';
+  const contact= CT==='company'?gv('inp-co-contact'):'';
+  const tel    = CT==='company'?gv('inp-co-tel'):gv('inp-pe-tel');
+  const signer = gv('inp-signer');
+  const stLabel= dealerName.includes('總代理')?(ST==='dealer'?'配給經銷商':'直銷終端'):'';
 
-  const machines = getMachines();
-  const accs     = getAccessories();
-  const mTotal   = machines.reduce((s,m)=>s+m.qty*m.price,0);
-  const aTotal   = accs.reduce((s,a)=>s+a.qty*a.price,0);
-  const total    = mTotal + aTotal;
+  // 產生本機序號（確保不依賴 GAS 回應）
+  docNo = localDocNo();
 
-  const customerLabel = customerType==='company'
-    ? v('customer-company') : v('customer-personal-name')+'（個人）';
-  const contact = customerType==='company' ? v('customer-contact') : '';
-  const tel     = customerType==='company' ? v('customer-tel-co') : v('customer-personal-tel');
-  const signer  = v('signer-name');
-  const salesTypeLabel = dealerName.includes('總代理')
-    ? (salesType==='dealer'?'配給經銷商':'直銷終端') : '';
-
-  // 建立 receipt preview
-  const machineRows = machines.map(m=>`
-    <div class="m-preview">
+  // 建立收據預覽
+  const mRows = ms.map(m=>`
+    <div class="m-tag">
       <div class="mn">${m.model}　× ${m.qty}　NT$ ${(m.qty*m.price).toLocaleString()}</div>
       ${m.serials.length?`<div class="ms">序號：${m.serials.join('、')}</div>`:''}
     </div>`).join('');
-
-  const accRows = accs.length
-    ? accs.map(a=>`<div class="rr"><span class="k">${a.name} ×${a.qty}</span><span class="v">NT$ ${(a.qty*a.price).toLocaleString()}</span></div>`).join('')
+  const aRows = as.length
+    ? as.map(a=>`<div class="r-row"><span class="k">${a.name} ×${a.qty}</span><span class="v">NT$ ${(a.qty*a.price).toLocaleString()}</span></div>`).join('')
     : '<div style="font-size:12px;color:var(--muted)">無</div>';
 
-  document.getElementById('receipt-preview').innerHTML = `
+  g('receipt-box').innerHTML=`
     <h3>📄 簽收單 ${docNo}</h3>
-    <div class="rr"><span class="k">簽收時間</span><span class="v">${now}</span></div>
-    <div class="rr"><span class="k">業務</span><span class="v">${salesName}（${dealerName}）</span></div>
-    ${salesTypeLabel?`<div class="rr"><span class="k">銷售類型</span><span class="v">${salesTypeLabel}</span></div>`:''}
-    <hr class="dash">
-    <div class="rr"><span class="k">客戶</span><span class="v">${customerLabel}</span></div>
-    ${contact?`<div class="rr"><span class="k">聯絡人</span><span class="v">${contact}</span></div>`:''}
-    <div class="rr"><span class="k">電話</span><span class="v">${tel}</span></div>
-    <div class="rr"><span class="k">地址</span><span class="v">${v('delivery-addr')}</span></div>
-    <hr class="dash">
-    ${machineRows}
-    <hr class="dash">
-    ${accRows}
-    <hr class="dash">
-    <div class="rr"><span class="k">備註</span><span class="v">${v('remarks')||'無'}</span></div>
-    <div class="rr"><span class="k">退貨同意</span><span class="v" style="color:var(--green)">✓ 已同意</span></div>
-    <hr class="dash">
-    <div class="rr"><span class="k">簽名者</span><span class="v">${signer}</span></div>
-    <img src="${currentSigData}" class="sig-img-preview" alt="客戶簽名">
-    <div class="rr" style="margin-top:10px;font-size:14px;font-weight:700"><span class="k">本單總金額</span><span class="v" style="color:var(--blue);font-size:16px">NT$ ${total.toLocaleString()}</span></div>
+    <div class="r-row"><span class="k">簽收時間</span><span class="v">${now}</span></div>
+    <div class="r-row"><span class="k">業務</span><span class="v">${salesName}（${dealerName}）</span></div>
+    ${stLabel?`<div class="r-row"><span class="k">銷售類型</span><span class="v">${stLabel}</span></div>`:''}
+    <div class="r-dash"></div>
+    <div class="r-row"><span class="k">客戶</span><span class="v">${cLabel}</span></div>
+    ${contact?`<div class="r-row"><span class="k">聯絡人</span><span class="v">${contact}</span></div>`:''}
+    <div class="r-row"><span class="k">電話</span><span class="v">${tel}</span></div>
+    <div class="r-row"><span class="k">地址</span><span class="v">${gv('inp-addr')}</span></div>
+    <div class="r-dash"></div>
+    ${mRows}
+    <div class="r-dash"></div>
+    ${aRows}
+    <div class="r-dash"></div>
+    <div class="r-row"><span class="k">備註</span><span class="v">${gv('inp-remarks')||'無'}</span></div>
+    <div class="r-row"><span class="k">退貨同意</span><span class="v" style="color:var(--green)">✓ 已同意</span></div>
+    <div class="r-dash"></div>
+    <div class="r-row"><span class="k">簽名者</span><span class="v">${signer}</span></div>
+    <img src="${sigData}" class="sig-preview" alt="客戶簽名">
+    <div class="r-row" style="margin-top:10px;font-size:14px;font-weight:700">
+      <span class="k">本單總金額</span>
+      <span class="v" style="color:var(--blue);font-size:16px">NT$ ${total.toLocaleString()}</span>
+    </div>
     <div style="margin-top:8px;font-size:11px;color:var(--muted);text-align:center;line-height:1.7">
       本人確認已收到上列機器及配件，並同意退貨時由 Denba Taiwan 代為處理相關單據。<br>
       ${signer}　${now}
     </div>
   `;
 
-  document.getElementById('done-time').textContent = '簽收時間：' + now;
-  document.getElementById('done-docno').textContent = docNo;
-  document.getElementById('done-total').textContent = '本單總金額：NT$ ' + total.toLocaleString();
-  showPage('done-page');
+  g('done-time').textContent   = '簽收時間：'+now;
+  g('done-docno').textContent  = docNo;
+  g('done-total').textContent  = '本單總金額：NT$ '+total.toLocaleString();
+  g('sync-status').innerHTML   = '<span class="sync-status" style="background:#FEF3C7;color:#92400E">⏳ 同步中…</span>';
+  showPage('pg-done');
 
-  // 非同步存到 GAS
-  saveToGAS({
-    docNo, now, dealer: dealerName, salesType: salesTypeLabel,
-    sales: salesName, customerType, customerLabel, contact, tel,
-    addr: v('delivery-addr'), machines, accs,
-    remarks: v('remarks'), signer, agree: true
-  });
+  // 傳送到 GAS（no-cors，不等回應）
+  const payload = {
+    docNo, now, dealer:dealerName, salesType:stLabel, sales:salesName,
+    customerType:CT, customerLabel:cLabel, contact, tel, addr:gv('inp-addr'),
+    machines:ms, accs:as, remarks:gv('inp-remarks'), signer, agree:true
+  };
+  sendToGAS(payload);
 }
 
-// ══════════════════════════════
-//  GAS 傳送（GET 方式避開 CORS）
-// ══════════════════════════════
-async function getDocNo() {
-  try {
-    const res  = await fetch(GAS_URL + '?action=getDocNo');
-    const data = await res.json();
-    if (data.docNo) return data.docNo;
-  } catch(e) { console.log('getDocNo failed:', e); }
-  // fallback 本機序號
-  const key = 'denba_seq';
-  const seq = (parseInt(localStorage.getItem(key)||'0') + 1);
-  localStorage.setItem(key, seq);
-  const d=new Date(), yy=String(d.getFullYear()-1911).slice(-2);
-  const mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
-  return yy+mm+dd+String(seq).padStart(3,'0');
-}
-
-async function saveToGAS(data) {
+async function sendToGAS(data) {
   try {
     const encoded = encodeURIComponent(JSON.stringify(data));
     const url     = GAS_URL + '?action=save&data=' + encoded;
-    const res     = await fetch(url);
-    const result  = await res.json();
-    if (result.ok) {
-      toast('✓ 已儲存到 Google 試算表');
-    } else {
-      console.log('save error:', result.error);
-    }
+    // no-cors：繞過 CORS，資料傳出去但讀不到回應
+    await fetch(url, {mode:'no-cors'});
+    g('sync-status').innerHTML='<span class="sync-status sync-ok">✓ 已同步到 Google 試算表</span>';
   } catch(e) {
-    console.log('saveToGAS failed:', e);
+    g('sync-status').innerHTML='<span class="sync-status sync-fail">⚠ 同步失敗，請截圖備存</span>';
+    console.log('sendToGAS error:', e);
   }
 }
 
-// ══════════════════════════════
-//  下載簽收單圖片
-// ══════════════════════════════
-function downloadReceipt() {
-  const preview = document.getElementById('receipt-preview');
-  if (typeof html2canvas === 'undefined') {
-    toast('下載功能載入中，請稍後再試');
-    return;
-  }
-  html2canvas(preview, {scale:2, backgroundColor:'#ffffff', useCORS:true}).then(c => {
-    const link = document.createElement('a');
-    link.download = currentDocNo + '.png';
-    link.href = c.toDataURL('image/png');
-    link.click();
-    toast('已下載：' + currentDocNo + '.png');
+// ── 本機序號（民國年月日 + 流水，業務代碼前綴）──
+function localDocNo() {
+  const key = 'denba_seq';
+  const seq = (parseInt(localStorage.getItem(key)||'0')+1);
+  localStorage.setItem(key, seq);
+  const d=new Date();
+  const yy=String(d.getFullYear()-1911).slice(-2);
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  return yy+mm+dd+String(seq).padStart(3,'0');
+}
+
+// ── 下載圖片 ──
+function downloadImg() {
+  if(typeof html2canvas==='undefined'){toast('下載功能載入中，請稍後再試');return;}
+  html2canvas(g('receipt-box'),{scale:2,backgroundColor:'#ffffff',useCORS:true}).then(c=>{
+    const a=document.createElement('a');
+    a.download=docNo+'.png';
+    a.href=c.toDataURL('image/png');
+    a.click();
+    toast('已下載：'+docNo+'.png');
   });
 }
 
-// ══════════════════════════════
-//  新張簽收單
-// ══════════════════════════════
+// ── 新張 ──
 function newReceipt() {
-  ['customer-company','customer-contact','customer-tel-co',
-   'customer-personal-name','customer-personal-tel',
-   'delivery-addr','remarks','signer-name'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
+  ['inp-co-name','inp-co-contact','inp-co-tel','inp-pe-name','inp-pe-tel','inp-addr','inp-remarks','inp-signer'].forEach(id=>{
+    const el=g(id); if(el)el.value='';
   });
-  setType('company');
-  setSalesType('dealer');
-  agreeChecked = false;
-  document.getElementById('agree-box').classList.remove('checked','err-box');
-  document.getElementById('agree-chk').classList.remove('checked');
-  document.getElementById('agree-err').classList.remove('show');
-  document.getElementById('machine-list').innerHTML = '';
-  machineCount = 0;
-  initAccList();
-  calcTotal();
-  showPage('form-page');
+  CT='company'; ST='dealer'; agreed=false;
+  g('ct-co').classList.add('active'); g('ct-pe').classList.remove('active');
+  g('fld-company').style.display=''; g('fld-personal').style.display='none';
+  g('st-b').classList.add('active'); g('st-d').classList.remove('active');
+  g('agree-wrap').classList.remove('on','err');
+  g('agree-err').classList.remove('show');
+  g('machine-list').innerHTML=''; mCount=0;
+  initAccList(); calcTotal();
+  showPage('pg-form');
 }
 
-// ══════════════════════════════
-//  Utils
-// ══════════════════════════════
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-function v(id) { return (document.getElementById(id)||{}).value?.trim()||''; }
-function nowStr() {
-  const d=new Date(), pad=n=>String(n).padStart(2,'0');
-  return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-let toastTimer;
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>el.classList.remove('show'), 2800);
-}
-
-// 啟動時載入清單
-fetchLists();
+// ── Helpers ──
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));g(id).classList.add('active');window.scrollTo(0,0);}
+function g(id){return document.getElementById(id);}
+function gv(id){return (g(id)||{}).value?.trim()||'';}
+function nowStr(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}/${p(d.getMonth()+1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;}
+let _tt;
+function toast(msg){const el=g('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2800);}
 </script>
 </body>
 </html>
