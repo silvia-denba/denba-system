@@ -338,7 +338,7 @@ textarea{resize:none}
 // ══════════════════════════════════════════════
 //  ★ 設定區 — 只需要改這裡 ★
 // ══════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwp0U-SL39uFxSLBV5GOnT-9p5JkBeQ-fFMiMovhPx9FVSyVSsvs_yzx-bgNBN4r3E/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx4CUeRvl6wHZyO06U0HloyX1hT4Qu264WKFoyUHTCr8bPeJHxUyAtWq1bCq5LQ8W--MQ/exec';
 
 // ★ 機器型號清單（管理員在這裡修改）★
 const MACHINES = [
@@ -614,8 +614,8 @@ async function submitReceipt(){
   const signer = gv('inp-signer');
   const stLabel= dealerName.includes('總代理')?(ST==='dealer'?'配給經銷商':'直銷終端'):'';
 
-  // 產生本機序號（確保不依賴 GAS 回應）
-  docNo = localDocNo();
+  // 產生序號（優先從 GAS 取得，失敗才用本機）
+  docNo = await getGASDocNo();
 
   // 建立收據預覽
   const mRows = ms.map(m=>`
@@ -692,7 +692,30 @@ async function sendToGAS(data) {
   }
 }
 
-// ── 本機序號（民國年月日 + 流水，業務代碼前綴）──
+// ── 序號：優先從 GAS 取得，失敗才用本機備援 ──
+async function getGASDocNo() {
+  try {
+    // 用 image tag 方式取得序號（完全繞過 CORS）
+    return await new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      const cbName = 'gasDocNoCb_' + Date.now();
+      window[cbName] = (data) => {
+        delete window[cbName];
+        document.head.removeChild(script);
+        if (data && data.docNo) resolve(data.docNo);
+        else reject('no docNo');
+      };
+      script.src = GAS_URL + '?action=getDocNo&callback=' + cbName;
+      script.onerror = () => { delete window[cbName]; reject('script error'); };
+      document.head.appendChild(script);
+      setTimeout(() => { delete window[cbName]; reject('timeout'); }, 5000);
+    });
+  } catch(e) {
+    console.log('GAS docNo failed, using local:', e);
+    return localDocNo();
+  }
+}
+
 function localDocNo() {
   const key = 'denba_seq';
   const seq = (parseInt(localStorage.getItem(key)||'0')+1);
