@@ -151,7 +151,7 @@ textarea{resize:none}
         <option>Denba Taiwan 總代理</option>
         <option>源衛健康科技有限公司</option>
         <option>冰合時代環境科技有限公司</option>
-        <option>沐霆生活股份有限公司</option>
+        <option>東區經銷商</option>
       </select>
     </div>
     <div class="field">
@@ -326,14 +326,14 @@ textarea{resize:none}
   </div>
   <div class="receipt-box" id="receipt-box"></div>
   <div class="action-btns">
-    <button class="btn btn-primary" onclick="downloadImg()">⬇ 下載簽收單圖片</button>
+    <button class="btn btn-primary" id="dl-btn" onclick="downloadImg()">⬋ 準備下載中…</button>
     <button class="btn btn-green" onclick="newReceipt()">新增下一張簽收單</button>
   </div>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
-<script src="https://script.google.com/macros/s/AKfycbz3yUxZav-XLKKEXA3gRyzZ4euz9XfZtOz2ggU-E8egFNeFQcJJ4mVjQg46Oa1k-wQm/exec"></script>
+<!-- html2canvas 在需要時動態載入 -->
 <script>
 // ══════════════════════════════════════════════
 //  ★ 設定區 — 只需要改這裡 ★
@@ -348,7 +348,6 @@ const MACHINES = [
   'DENBA SLEEP',
   'DENBA MOBILE',
   'DENBA PET',
-  'DENBA PET2',
 ];
 
 // ★ 配件清單（管理員在這裡修改）★
@@ -658,7 +657,14 @@ async function submitReceipt(){
     </div>
   `;
 
-  g('done-time').textContent   = '簽收時間：'+now;
+  // 預載 html2canvas
+if(typeof html2canvas==='undefined'){
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  s.onload=()=>{ const btn=g('dl-btn'); if(btn){ btn.textContent='⬇ 下載簽收單圖片'; } };
+  document.head.appendChild(s);
+}
+g('done-time').textContent   = '簽收時間：'+now;
   g('done-docno').textContent  = docNo;
   g('done-total').textContent  = '本單總金額：NT$ '+total.toLocaleString();
   g('sync-status').innerHTML   = '<span class="sync-status" style="background:#FEF3C7;color:#92400E">⏳ 同步中…</span>';
@@ -700,13 +706,38 @@ function localDocNo() {
 
 // ── 下載圖片 ──
 function downloadImg() {
-  if(typeof html2canvas==='undefined'){toast('下載功能載入中，請稍後再試');return;}
+  const btn = g('dl-btn');
+  if(typeof html2canvas !== 'undefined'){
+    doDownload();
+  } else {
+    if(btn){ btn.textContent='⏳ 載入中…'; btn.disabled=true; }
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload = () => {
+      if(btn){ btn.textContent='⬇ 下載簽收單圖片'; btn.disabled=false; }
+      doDownload();
+    };
+    s.onerror = () => {
+      if(btn){ btn.textContent='⬇ 下載簽收單圖片'; btn.disabled=false; }
+      toast('網路問題，請稍後再試');
+    };
+    document.head.appendChild(s);
+  }
+}
+
+function doDownload() {
+  const btn = g('dl-btn');
+  if(btn){ btn.textContent='⏳ 產生圖片中…'; btn.disabled=true; }
   html2canvas(g('receipt-box'),{scale:2,backgroundColor:'#ffffff',useCORS:true}).then(c=>{
     const a=document.createElement('a');
     a.download=docNo+'.png';
     a.href=c.toDataURL('image/png');
     a.click();
+    if(btn){ btn.textContent='✓ 已下載'; btn.disabled=false; }
     toast('已下載：'+docNo+'.png');
+  }).catch(e=>{
+    if(btn){ btn.textContent='⬇ 下載簽收單圖片'; btn.disabled=false; }
+    toast('下載失敗，請截圖儲存');
   });
 }
 
